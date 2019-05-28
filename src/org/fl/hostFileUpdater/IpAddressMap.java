@@ -7,9 +7,9 @@ import java.util.Set;
 
 public class IpAddressMap {
 
-	private String ipAddress ;
-	private Set<String> hostNames ;
-	private boolean reachable ;
+	private final String ipAddress ;
+	private Set<String>  hostNames ;
+	private boolean 	 reachable ;
 	
 	// Mapping between an IP address and a list of host names
 	// The host file line must not be a comment line, but may includes a comment
@@ -19,6 +19,8 @@ public class IpAddressMap {
 		hostNames = new HashSet<String>() ;
 		if ((items != null) && (items.length > 1)) {
 			ipAddress = items[0].trim() ; 
+		} else {
+			ipAddress = null ;
 		}
 		
 		boolean comment = false ;

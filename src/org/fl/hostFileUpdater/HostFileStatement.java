@@ -6,8 +6,8 @@ public class HostFileStatement {
 	
 	private boolean isCommentLine ;
 	private boolean isHostDuplicate ;
-	private String line ;
-	private IpAddressMap ipAddressMap ;
+	private final String 	   line ;
+	private final IpAddressMap ipAddressMap ;
 	
 	public HostFileStatement(String hostFileLine) {
 		
