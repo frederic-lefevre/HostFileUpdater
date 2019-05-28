@@ -1,0 +1,5 @@
+# IOW 1.6 DMZ
+192.168.65.184	iocana.ibmplatform.com	iocana
+192.168.65.186	iocdb.ibmplatform.com	iocdb
+192.168.65.185	iocapp.ibmplatform.com	iocapp
+192.168.65.187	iocweb.ibmplatform.com	iocweb

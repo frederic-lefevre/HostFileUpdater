@@ -1,0 +1,5 @@
+# IOC 5.1 multi server demo DMZ
+192.168.64.81	ioc51ana.ibmplatform.com	 ioc51ana
+192.168.64.82	ioc51app.ibmplatform.com	 ioc51app
+192.168.64.83	ioc51db.ibmplatform.com		 ioc51db
+192.168.64.84	ioc51web.ibmplatform.com	 ioc51web 

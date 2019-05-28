@@ -1,0 +1,14 @@
+span.comment {
+             color: green ;
+}
+
+span.conflict {
+             color: red ;
+}
+
+span.broken {
+             color: orange ;
+}
+span.normal {
+             color: black ;
+}

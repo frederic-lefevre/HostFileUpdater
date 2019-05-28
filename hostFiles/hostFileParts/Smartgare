@@ -1,0 +1,7 @@
+# Projet Smartgare IOC 5.1 + IVA 1.6.1 DMZ
+192.168.63.126	ioc51ana.ibmplatform.com	ioc51ana
+192.168.63.128	ioc51db.ibmplatform.com	ioc51db
+192.168.63.127	ioc51app.ibmplatform.com	ioc51app
+192.168.63.129	ioc51web.ibmplatform.com	ioc51web
+192.168.63.178	MILS161 IVAMILS
+192.168.63.176	SSE161 IVASSE

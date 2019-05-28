@@ -1,0 +1,67 @@
+
+# Copyright (c) 1993-1999 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these)  may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+#
+
+# Local addresses mappings
+127.0.0.1	localhost
+127.0.0.1	LAPTOP-U7AF1F9R
+127.0.0.1	LAPTOP-U7AF1F9R.home
+127.0.0.1	testLocalHostName
+192.168.101.44	localhost
+192.168.101.44	LAPTOP-U7AF1F9R
+192.168.101.44	LAPTOP-U7AF1F9R.home
+192.168.101.44	testLocalHostName
+
+# VMWare infrastructure V4 in La Gaude lab
+#9.100.118.169 vc4bsc.vs4.bsc.ibm.com vc4bsc
+9.100.118.169 vc4bsc.vs4.bsc.ibm.com vs4bsc
+9.100.118.164 b2besx411.vs4.bsc.ibm.com b2besx411
+9.100.118.165 b2besx412.vs4.bsc.ibm.com b2besx412
+9.100.118.166 b2besx413.vs4.bsc.ibm.com b2besx413
+9.100.118.167 b2besx414.vs4.bsc.ibm.com b2besx414
+9.100.118.168 b2besx415.vs4.bsc.ibm.com b2besx415
+9.100.118.180 b2besx416.vs4.bsc.ibm.com b2besx416
+9.100.118.181 b2besx417.vs4.bsc.ibm.com b2besx417
+
+#---------------------------------------------------
+# DMZ Access
+192.168.60.100	VS5DMZ.VS5.dmz.ibm.com	VS5DMZ
+192.168.60.101	DMZESX501.VS5.dmz.ibm.com	DMZESX501
+192.168.60.102	DMZESX502.VS5.dmz.ibm.com	DMZESX502
+192.168.60.105	DMZESX503.VS5.dmz.ibm.com	DMZESX503
+192.168.60.33	DMZESX111.VS5.dmz.ibm.com	DMZESX111
+192.168.60.34	DMZESX112.VS5.dmz.ibm.com	DMZESX112
+192.168.60.35	DMZESX113.VS5.dmz.ibm.com	DMZESX113
+192.168.60.36	DMZESX114.VS5.dmz.ibm.com	DMZESX114
+192.168.60.14	DMZESX115.VS5.dmz.ibm.com	DMZESX115
+192.168.60.15	DMZESX116.VS5.dmz.ibm.com	DMZESX116
+192.168.60.16	DMZESX117.VS5.dmz.ibm.com	DMZESX117
+192.168.60.99 VS55DMZ.ipfs.cloud.ibm.com VS55DMZ
+
+# DMZ pureflex access
+192.168.113.134 ESWPURE04.ipfs.cloud.ibm.com
+192.168.113.135 ESWPURE05.ipfs.cloud.ibm.com
+
+# IOC 5.1 for BlueCloud
+192.168.65.161	ioc51ana.ibmplatform.com	ioc51ana
+192.168.65.163	ioc51db.ibmplatform.com	ioc51db
+192.168.65.162	ioc51app.ibmplatform.com	ioc51app
+192.168.65.164	ioc51web.ibmplatform.com	ioc51web
+
+127.0.0.1 screenshots.firefox.com

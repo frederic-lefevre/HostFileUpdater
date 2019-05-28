@@ -1,0 +1,9 @@
+# ILE platform DEV (V2)
+192.168.65.8	ioc15install.ibmplatform.com	ioc15install
+192.168.65.103	ioc15db.ibmplatform.com	ioc15db
+192.168.65.101	ioc15app.ibmplatform.com	ioc15app
+192.168.65.104	ioc15event.ibmplatform.com	ioc15event
+192.168.65.109	ioc15mgmt.ibmplatform.com	ioc15mgmt
+192.168.65.105  IAP1Write.ile.ibm.com iap1Write
+192.168.65.106  IAP2Read.ile.ibm.com iap2Read
+192.168.65.107	ecmdemo1.ecm.ibm.local		ecmdemo1
