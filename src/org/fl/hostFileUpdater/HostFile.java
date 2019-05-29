@@ -20,7 +20,7 @@ public class HostFile {
 	private final static String SPAN_UNREACHABLE = "<span class=\"broken\">" ;
 	private final static String SPAN_NORMAL   	 = "<span class=\"normal\">" ;
 	
-	private Path filePath ;
+	private final Path filePath ;
 	private List<HostFileStatement> hostFileStatements ;
 	private Logger hLog ;
 	
@@ -96,7 +96,11 @@ public class HostFile {
 	
 	// File path to string
 	public String getHostFileName() {
-		return filePath.getFileName().toString() ;
+		if (filePath != null) {
+			return filePath.getFileName().toString() ;
+		} else {
+			return "" ;
+		}
 	}
 	
 	// Get the content of the HostFile as a StringBuffer
