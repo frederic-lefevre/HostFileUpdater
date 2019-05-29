@@ -4,8 +4,8 @@ public class HostFileStatement {
 
 	private final static String COMMENT_START = "#" ;
 	
-	private boolean isCommentLine ;
 	private boolean isHostDuplicate ;
+	private final boolean 	   isCommentLine ;
 	private final String 	   line ;
 	private final IpAddressMap ipAddressMap ;
 	
@@ -14,7 +14,8 @@ public class HostFileStatement {
 		super();
 		line = hostFileLine ;
 		isHostDuplicate = false ;
-		if (checkCommentLine(hostFileLine)) {
+		isCommentLine = checkCommentLine(line) ;
+		if (isCommentLine) {
 			ipAddressMap = null ;
 		} else {
 			ipAddressMap = new IpAddressMap(hostFileLine) ;
@@ -26,7 +27,8 @@ public class HostFileStatement {
 		super();
 		line = hf.line ;
 		isHostDuplicate = hf.isHostDuplicate ;
-		if (checkCommentLine(line)) {
+		isCommentLine = checkCommentLine(line) ;
+		if (isCommentLine) {
 			ipAddressMap = null ;
 		} else {
 			ipAddressMap = new IpAddressMap(line) ;
@@ -42,7 +44,6 @@ public class HostFileStatement {
 				res = false ;
 			}
 		}
-		isCommentLine = res ;
 		return res ;	
 			
 	}
