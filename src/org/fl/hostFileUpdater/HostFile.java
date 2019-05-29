@@ -95,7 +95,7 @@ public class HostFile {
 	}
 	
 	// File path to string
-	public String toString() {
+	public String getHostFileName() {
 		return filePath.getFileName().toString() ;
 	}
 	
