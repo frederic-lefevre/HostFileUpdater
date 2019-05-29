@@ -82,12 +82,4 @@ public class HostFileStatement {
 		return ipAddressMap.isReachable() ;
 	}
 	
-	public boolean testReachable() {
-		
-		if (ipAddressMap != null) {
-			return ipAddressMap.testReachable() ;
-		} else {
-			return true ;
-		}
-	}
 }

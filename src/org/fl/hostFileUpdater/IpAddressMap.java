@@ -1,5 +1,6 @@
 package org.fl.hostFileUpdater;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collections;
 import java.util.HashSet;
@@ -9,7 +10,6 @@ public class IpAddressMap {
 
 	private final String ipAddress ;
 	private Set<String>  hostNames ;
-	private boolean 	 reachable ;
 	
 	// Mapping between an IP address and a list of host names
 	// The host file line must not be a comment line, but may includes a comment
@@ -34,7 +34,6 @@ public class IpAddressMap {
 				comment = true ;
 			}
 		}
-		reachable = true ;
 	}
 
 	// Add a host name the the mapping
@@ -66,24 +65,19 @@ public class IpAddressMap {
 	}
 
 	public boolean isReachable() {
-		
-		return reachable ;
-	}
-	
-	public boolean testReachable() {
-		
+			
+		boolean reachable = false ;
 		InetAddress inet;
 		try {
 			inet = InetAddress.getByName(ipAddress);
 	
 			if (inet != null) {
 				reachable = inet.isReachable(3000) ;
-			} else {
-				reachable = false ;
-			}
-		} catch (Exception e) {
-			reachable = false ;
+			} 
+		} catch (IOException e) {
+			// means unreachable
 		}
 		return reachable ;
 	}
+	
 }

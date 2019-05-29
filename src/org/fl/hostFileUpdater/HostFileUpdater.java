@@ -289,7 +289,7 @@ public class HostFileUpdater {
 		
 		if (hostFile != null) {
 			for (HostFileStatement hfs : hostFile.getHostFileStatements()) {
-				hfs.testReachable() ;
+				hfs.isReachable() ;
 			}
 		}
 	}
