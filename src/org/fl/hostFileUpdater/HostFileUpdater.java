@@ -288,7 +288,7 @@ public class HostFileUpdater {
 	private void testReachableHosts(HostFile hostFile) {
 		
 		if (hostFile != null) {
-			for (HostFileStatement hfs : hostFile.getAddressMap()) {
+			for (HostFileStatement hfs : hostFile.getHostFileStatements()) {
 				hfs.testReachable() ;
 			}
 		}

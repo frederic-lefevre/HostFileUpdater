@@ -21,7 +21,7 @@ public class HostFile {
 	private final static String SPAN_NORMAL   	 = "<span class=\"normal\">" ;
 	
 	private Path filePath ;
-	private ArrayList<HostFileStatement> addMap ;
+	private List<HostFileStatement> hostFileStatements ;
 	private Logger hLog ;
 	
 	private static String htmlFileBegin =  "<html><body>" ;
@@ -30,7 +30,7 @@ public class HostFile {
 	public HostFile(Logger l) {
 		filePath = null ;
 		hLog = l ;		
-		addMap = new ArrayList<HostFileStatement>() ;
+		hostFileStatements = new ArrayList<HostFileStatement>() ;
 	}
 	
 	// Create a HostFile from a path (the corresponding file is read and parsed)
@@ -39,7 +39,7 @@ public class HostFile {
 		filePath = pf ;
 		hLog = l ;
 		
-		addMap = new ArrayList<HostFileStatement>() ;
+		hostFileStatements = new ArrayList<HostFileStatement>() ;
 		try {
 			List<String> fileContent = Files.readAllLines(filePath, Charset.defaultCharset()) ;
 			addHostFileLines(fileContent);
@@ -55,7 +55,7 @@ public class HostFile {
 		
 		filePath = null ;
 		hLog = l ;
-		addMap = new ArrayList<HostFileStatement>() ;
+		hostFileStatements = new ArrayList<HostFileStatement>() ;
 		addHostFileLines(fc);
 	
 	}
@@ -64,13 +64,13 @@ public class HostFile {
 	private void addOneLineToHostFile(String line) {
 		
 		HostFileStatement statement = new HostFileStatement(line) ;
-		for (HostFileStatement hfs : addMap) {
+		for (HostFileStatement hfs : hostFileStatements) {
 			if (hfs.containSameHostNameWithDiffentAddress(statement)) {
 				hfs.setHostDuplicate(true);
 				statement.setHostDuplicate(true);
 			}
 		}
-		addMap.add(statement) ;
+		hostFileStatements.add(statement) ;
 	}
 	
 	// Add a list of lines the HostFile
@@ -84,13 +84,13 @@ public class HostFile {
 	private void addHostFileStatements(List<HostFileStatement> fileStatements) {
 		for (HostFileStatement statement : fileStatements) {
 			HostFileStatement newStatement = new HostFileStatement(statement) ;
-			for (HostFileStatement hfs : addMap) {
+			for (HostFileStatement hfs : hostFileStatements) {
 				if (hfs.containSameHostNameWithDiffentAddress(newStatement)) {
 					hfs.setHostDuplicate(true);
 					newStatement.setHostDuplicate(true);
 				}
 			}
-			addMap.add(newStatement) ;
+			hostFileStatements.add(newStatement) ;
 		}
 	}
 	
@@ -103,7 +103,7 @@ public class HostFile {
 	public StringBuilder getContent() {
 		
 		StringBuilder res = new StringBuilder() ;
-		for (HostFileStatement statement : addMap) {
+		for (HostFileStatement statement : hostFileStatements) {
 			res.append(statement.getLine()).append(NEWLINE) ;
 		}
 		return res ;
@@ -132,7 +132,7 @@ public class HostFile {
 	public StringBuilder getHtmlBody(boolean showConflict) {
 		
 		StringBuilder res = new StringBuilder() ;
-		for (HostFileStatement statement : addMap) {
+		for (HostFileStatement statement : hostFileStatements) {
 			String spanTag ;
 			if (statement.isCommentLine()) {
 				spanTag = SPAN_COMMENT ;
@@ -170,7 +170,7 @@ public class HostFile {
 	// Append a HostFile to this HostFile
 	public HostFile append(HostFile hf) {	
 		addOneLineToHostFile("");
-		addHostFileStatements(hf.addMap);
+		addHostFileStatements(hf.hostFileStatements);
 		return this ;
 	}
 	
@@ -179,7 +179,7 @@ public class HostFile {
 		
 		ArrayList<HostFileStatement> result = new ArrayList<HostFileStatement>() ;
 		
-		for (HostFileStatement hfs : hf.addMap) {
+		for (HostFileStatement hfs : hf.hostFileStatements) {
 			IpAddressMap m = hfs.getIpAddressMap() ;
 			if ((m != null) && (! includes(m))) {
 				result.add(hfs) ;
@@ -191,7 +191,7 @@ public class HostFile {
 	// Returns true if the IP address map is part of this host file 
 	public boolean includes(IpAddressMap ipam) {
 		
-		for (HostFileStatement hfs : addMap) {
+		for (HostFileStatement hfs : hostFileStatements) {
 			IpAddressMap m = hfs.getIpAddressMap() ;
 			if ((m != null) && (m.isTheSameAs(ipam))) {
 				return true ;
@@ -204,7 +204,7 @@ public class HostFile {
 	public boolean includes(HostFile hf) {
 		
 		boolean result = true ;
-		for (HostFileStatement hfs : hf.getAddressMap()) {
+		for (HostFileStatement hfs : hf.getHostFileStatements()) {
 			IpAddressMap m = hfs.getIpAddressMap() ;
 			if ((m != null) && (! includes(m))) {
 				result = false ;
@@ -226,8 +226,8 @@ public class HostFile {
 		return resultHostFiles ;
 	}
 
-	public ArrayList<HostFileStatement> getAddressMap() {
-		return addMap;
+	public List<HostFileStatement> getHostFileStatements() {
+		return hostFileStatements;
 	}
 
 }
