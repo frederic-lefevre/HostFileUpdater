@@ -15,11 +15,11 @@ import com.ibm.lge.fl.util.os.NetworkUtils;
 
 public class HostFileUpdater {
 
-	private final static String NEWLINE = System.getProperty("line.separator");
-	private final static String NEWLINE_HTML  = "<br/>" ; 
-	private final static String LOCALHOST = "localhost" ;
-	private final static String LOCALIP = "127.0.0.1" ;
-	private final static char TABCHAR = '\t' ;
+	private final static String NEWLINE 	 = System.getProperty("line.separator");
+	private final static String NEWLINE_HTML = "<br/>" ; 
+	private final static String LOCALHOST 	 = "localhost" ;
+	private final static String LOCALIP 	 = "127.0.0.1" ;
+	private final static char 	TABCHAR 	 = '\t' ;
 	
 	// system host file to update
 	private HostFile targetHostFile ;
@@ -50,10 +50,10 @@ public class HostFileUpdater {
 	private ArrayList<HostFileStatement> hostFileStatementsToBeLost ;
 	
 	private ArrayList<String> hostCurrentIpAddresses ;
-	private String machineName ;
-	private HostFile localHostMappings ;
-	private String hostFileStyle ;
-	private Logger hLog ;
+	private String 			  machineName ;
+	private HostFile 		  localHostMappings ;
+	private String 			  hostFileStyle ;
+	private Logger 			  hLog ;
 	
 	public HostFileUpdater(AdvancedProperties props, Logger l) {
 		
