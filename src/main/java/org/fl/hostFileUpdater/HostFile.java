@@ -33,6 +33,7 @@ public class HostFile {
 			return (hostFileStatement.containSameHostNameWithDiffentAddress(anotherStatement.hostFileStatement)) ;
 		}
 	}
+	
 	private List<StatementOfThisFile> StatementsOfThisFile ;
 
 	private final Path filePath ;
