@@ -276,7 +276,7 @@ public class HostFileUpdater {
 		buff.append("base mappings\n\nParticular mappings included:\n") ;
 		ArrayList<HostFile> includedHostFile = targetHostFile.getIncludedHostFiles(hostFileList) ;		 
 		for (HostFile ihf : includedHostFile) {
-			buff.append(ihf.getHostFileName()).append("\n") ;
+			buff.append(ihf.toString()).append("\n") ;
 		}
 		
 		buff.append("\n").append(printHostFileStatementsToBeLost()) ;

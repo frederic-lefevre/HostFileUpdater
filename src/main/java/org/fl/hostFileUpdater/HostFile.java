@@ -107,8 +107,9 @@ public class HostFile {
 		}
 	}
 	
-	// File path to string
-	public String getHostFileName() {
+	// File path to string : must have a toString method to be able to be displayed in a JList
+	@Override
+	public String toString() {
 		if (filePath != null) {
 			return filePath.getFileName().toString() ;
 		} else {
