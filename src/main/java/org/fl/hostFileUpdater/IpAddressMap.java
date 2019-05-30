@@ -37,8 +37,9 @@ public class IpAddressMap {
 	}
 
 	// Add a host name the the mapping
-	public void addHostName(String hostName) {
+	public IpAddressMap addHostName(String hostName) {
 		hostNames.add(hostName) ;
+		return this ;
 	}
 	
 	// True if the IP address maps have the same IP and the same set of names 
