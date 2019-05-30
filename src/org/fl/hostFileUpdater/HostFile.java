@@ -20,26 +20,41 @@ public class HostFile {
 	private final static String SPAN_UNREACHABLE = "<span class=\"broken\">" ;
 	private final static String SPAN_NORMAL   	 = "<span class=\"normal\">" ;
 	
+	private class StatementOfThisFile {	
+		
+		public boolean 			 inConflict ;
+		public HostFileStatement hostFileStatement ;
+		public StatementOfThisFile(boolean inConflict, HostFileStatement hostFileStatement) {
+			super();
+			this.inConflict		   = inConflict;
+			this.hostFileStatement = hostFileStatement;
+		}
+		public boolean inConflictWith(StatementOfThisFile anotherStatement) {
+			return (hostFileStatement.containSameHostNameWithDiffentAddress(anotherStatement.hostFileStatement)) ;
+		}
+	}
+	private List<StatementOfThisFile> StatementsOfThisFile ;
+
 	private final Path filePath ;
-	private List<HostFileStatement> hostFileStatements ;
+	
 	private Logger hLog ;
 	
 	private static String htmlFileBegin =  "<html><body>" ;
 	
 	// Create an empty HostFile
 	public HostFile(Logger l) {
-		filePath = null ;
-		hLog = l ;		
-		hostFileStatements = new ArrayList<HostFileStatement>() ;
+		filePath 	   		 = null ;
+		hLog 		   		 = l ;		
+		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
 	}
 	
 	// Create a HostFile from a path (the corresponding file is read and parsed)
 	public HostFile(Path pf, Logger l) {
 		
-		filePath = pf ;
-		hLog = l ;
+		filePath 	   		 = pf ;
+		hLog 		   		 = l ;		
+		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
 		
-		hostFileStatements = new ArrayList<HostFileStatement>() ;
 		try {
 			List<String> fileContent = Files.readAllLines(filePath, Charset.defaultCharset()) ;
 			addHostFileLines(fileContent);
@@ -53,24 +68,26 @@ public class HostFile {
 	//  Create a HostFile from a list of String
 	public HostFile(List<String> fc, Logger l) {
 		
-		filePath = null ;
-		hLog = l ;
-		hostFileStatements = new ArrayList<HostFileStatement>() ;
-		addHostFileLines(fc);
+		filePath 	   		 = null ;
+		hLog 		   		 = l ;		
+		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
+		addHostFileLines(fc);	
+	}
 	
+	// Add a HostFileStatement to the HostFile
+	private void addOneHostFileStatement(StatementOfThisFile newStatementOfThisFile) {
+		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
+			if (fileStatement.inConflictWith(newStatementOfThisFile)) {
+				fileStatement.inConflict 		  = true ;
+				newStatementOfThisFile.inConflict = true ;
+			}
+		}
+		StatementsOfThisFile.add(newStatementOfThisFile) ;
 	}
 	
 	// Add one line to the HostFile
-	private void addOneLineToHostFile(String line) {
-		
-		HostFileStatement statement = new HostFileStatement(line) ;
-		for (HostFileStatement hfs : hostFileStatements) {
-			if (hfs.containSameHostNameWithDiffentAddress(statement)) {
-				hfs.setHostDuplicate(true);
-				statement.setHostDuplicate(true);
-			}
-		}
-		hostFileStatements.add(statement) ;
+	private void addOneLineToHostFile(String line) {	
+		addOneHostFileStatement(new StatementOfThisFile(false, new HostFileStatement(line))) ;		
 	}
 	
 	// Add a list of lines the HostFile
@@ -81,16 +98,9 @@ public class HostFile {
 	}
 	
 	// Add a list of HostFileStatements to the HostFile
-	private void addHostFileStatements(List<HostFileStatement> fileStatements) {
-		for (HostFileStatement statement : fileStatements) {
-			HostFileStatement newStatement = new HostFileStatement(statement) ;
-			for (HostFileStatement hfs : hostFileStatements) {
-				if (hfs.containSameHostNameWithDiffentAddress(newStatement)) {
-					hfs.setHostDuplicate(true);
-					newStatement.setHostDuplicate(true);
-				}
-			}
-			hostFileStatements.add(newStatement) ;
+	private void addHostFileStatements(List<StatementOfThisFile> fileStatements) {
+		for (StatementOfThisFile fileStatement : fileStatements) {
+			addOneHostFileStatement(fileStatement) ;
 		}
 	}
 	
@@ -107,8 +117,8 @@ public class HostFile {
 	public StringBuilder getContent() {
 		
 		StringBuilder res = new StringBuilder() ;
-		for (HostFileStatement statement : hostFileStatements) {
-			res.append(statement.getLine()).append(NEWLINE) ;
+		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
+			res.append(fileStatement.hostFileStatement.getLine()).append(NEWLINE) ;
 		}
 		return res ;
 	}
@@ -136,11 +146,12 @@ public class HostFile {
 	public StringBuilder getHtmlBody(boolean showConflict) {
 		
 		StringBuilder res = new StringBuilder() ;
-		for (HostFileStatement statement : hostFileStatements) {
+		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
 			String spanTag ;
+			HostFileStatement statement = fileStatement.hostFileStatement ;
 			if (statement.isCommentLine()) {
 				spanTag = SPAN_COMMENT ;
-			} else if (showConflict && (statement.isHostDuplicate())) {
+			} else if (showConflict && (fileStatement.inConflict)) {
 				spanTag = SPAN_CONFLICT ;
 			} else if (!statement.isReachable()) {
 				spanTag = SPAN_UNREACHABLE ;
@@ -174,7 +185,7 @@ public class HostFile {
 	// Append a HostFile to this HostFile
 	public HostFile append(HostFile hf) {	
 		addOneLineToHostFile("");
-		addHostFileStatements(hf.hostFileStatements);
+		addHostFileStatements(hf.StatementsOfThisFile);
 		return this ;
 	}
 	
@@ -183,10 +194,10 @@ public class HostFile {
 		
 		ArrayList<HostFileStatement> result = new ArrayList<HostFileStatement>() ;
 		
-		for (HostFileStatement hfs : hf.hostFileStatements) {
-			IpAddressMap m = hfs.getIpAddressMap() ;
+		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
+			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
 			if ((m != null) && (! includes(m))) {
-				result.add(hfs) ;
+				result.add(fileStatement.hostFileStatement) ;
 			}
 		}
 		return result ;
@@ -195,8 +206,8 @@ public class HostFile {
 	// Returns true if the IP address map is part of this host file 
 	public boolean includes(IpAddressMap ipam) {
 		
-		for (HostFileStatement hfs : hostFileStatements) {
-			IpAddressMap m = hfs.getIpAddressMap() ;
+		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
+			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
 			if ((m != null) && (m.isTheSameAs(ipam))) {
 				return true ;
 			}
@@ -208,8 +219,8 @@ public class HostFile {
 	public boolean includes(HostFile hf) {
 		
 		boolean result = true ;
-		for (HostFileStatement hfs : hf.getHostFileStatements()) {
-			IpAddressMap m = hfs.getIpAddressMap() ;
+		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
+			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
 			if ((m != null) && (! includes(m))) {
 				result = false ;
 			}
@@ -230,8 +241,9 @@ public class HostFile {
 		return resultHostFiles ;
 	}
 
-	public List<HostFileStatement> getHostFileStatements() {
-		return hostFileStatements;
+	public void testReachableHosts() {		
+		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
+			fileStatement.hostFileStatement.isReachable() ;
+		}
 	}
-
 }

@@ -168,7 +168,7 @@ public class HostFileUpdater {
 			bodyHostFile.append(hf) ;
 		}
 		if (testReachable) {
-			testReachableHosts(bodyHostFile) ; 
+			bodyHostFile.testReachableHosts() ; 
 		}
 		// print this temporary host file with highlight for conflicts
 		resultHostFile.append(bodyHostFile.getHtmlBody(true)) ;
@@ -283,15 +283,6 @@ public class HostFileUpdater {
 		
 		return buff.toString() ;
 		
-	}
-	
-	private void testReachableHosts(HostFile hostFile) {
-		
-		if (hostFile != null) {
-			for (HostFileStatement hfs : hostFile.getHostFileStatements()) {
-				hfs.isReachable() ;
-			}
-		}
 	}
 	
 	public String getPresentHostFile() {

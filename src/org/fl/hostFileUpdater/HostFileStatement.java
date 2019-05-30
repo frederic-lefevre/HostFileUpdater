@@ -4,7 +4,6 @@ public class HostFileStatement {
 
 	private final static String COMMENT_START = "#" ;
 	
-	private boolean isHostDuplicate ;
 	private final boolean 	   isCommentLine ;
 	private final String 	   line ;
 	private final IpAddressMap ipAddressMap ;
@@ -13,25 +12,11 @@ public class HostFileStatement {
 		
 		super();
 		line = hostFileLine ;
-		isHostDuplicate = false ;
 		isCommentLine = checkCommentLine(line) ;
 		if (isCommentLine) {
 			ipAddressMap = null ;
 		} else {
 			ipAddressMap = new IpAddressMap(hostFileLine) ;
-		}
-	}
-
-	public HostFileStatement(HostFileStatement hf) {
-		
-		super();
-		line = hf.line ;
-		isHostDuplicate = hf.isHostDuplicate ;
-		isCommentLine = checkCommentLine(line) ;
-		if (isCommentLine) {
-			ipAddressMap = null ;
-		} else {
-			ipAddressMap = new IpAddressMap(line) ;
 		}
 	}
 
@@ -44,20 +29,11 @@ public class HostFileStatement {
 				res = false ;
 			}
 		}
-		return res ;	
-			
+		return res ;				
 	}
 
 	public boolean isCommentLine() {
 		return isCommentLine;
-	}
-
-	public boolean isHostDuplicate() {
-		return isHostDuplicate;
-	}
-
-	public void setHostDuplicate(boolean isHostDuplicate) {
-		this.isHostDuplicate = isHostDuplicate;
 	}
 
 	public String getLine() {
@@ -80,6 +56,5 @@ public class HostFileStatement {
 	
 	public boolean isReachable() {
 		return ipAddressMap.isReachable() ;
-	}
-	
+	}	
 }
