@@ -223,7 +223,7 @@ public class HostFile {
 	public boolean includes(HostFile hf) {
 		
 		boolean result = true ;
-		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
+		for (StatementOfThisFile fileStatement : hf.StatementsOfThisFile) {
 			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
 			if ((m != null) && (! includes(m))) {
 				result = false ;
