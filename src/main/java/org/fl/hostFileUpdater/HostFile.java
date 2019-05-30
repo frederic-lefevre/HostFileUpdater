@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.fl.hostFileUpdater.IpAddressMap.Reachable;
+
 public class HostFile {
 
 	private final static String NEWLINE 	  	 = System.getProperty("line.separator");
@@ -154,7 +156,7 @@ public class HostFile {
 				spanTag = SPAN_COMMENT ;
 			} else if (showConflict && (fileStatement.inConflict)) {
 				spanTag = SPAN_CONFLICT ;
-			} else if (!statement.isReachable()) {
+			} else if (statement.getReachable().equals(Reachable.FALSE)) {
 				spanTag = SPAN_UNREACHABLE ;
 			} else {
 				spanTag = SPAN_NORMAL ;
@@ -242,9 +244,7 @@ public class HostFile {
 		return resultHostFiles ;
 	}
 
-	public void testReachableHosts() {		
-		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
-			fileStatement.hostFileStatement.isReachable() ;
-		}
+	public void testReachableHosts() {
+		StatementsOfThisFile.parallelStream().forEach(fileStatement -> fileStatement.hostFileStatement.testReachable());		
 	}
 }

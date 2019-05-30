@@ -2,6 +2,7 @@ package org.fl.hostFileUpdater;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 import org.junit.jupiter.api.Test;
 
 class HostFileStatementTest {
@@ -31,6 +32,11 @@ class HostFileStatementTest {
 		String l4  = ip2 + " " + h1 + "\t" + h2 ;
 		HostFileStatement hfs4 = new HostFileStatement(l4) ;
 		assertTrue(hfs1.containSameHostNameWithDiffentAddress(hfs4)) ;
+		
+		assertEquals(Reachable.UNKNOWN,hfs4.getReachable()) ;
+		
+		hfs4.testReachable();
+		assertEquals(Reachable.FALSE,hfs4.getReachable()) ;
 	}
 
 }

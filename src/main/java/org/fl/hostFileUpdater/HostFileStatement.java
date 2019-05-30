@@ -1,5 +1,7 @@
 package org.fl.hostFileUpdater;
 
+import org.fl.hostFileUpdater.IpAddressMap.Reachable;
+
 public class HostFileStatement {
 
 	private final static String COMMENT_START = "#" ;
@@ -54,7 +56,17 @@ public class HostFileStatement {
 		}
 	}
 	
-	public boolean isReachable() {
-		return ipAddressMap.isReachable() ;
-	}	
+	public void testReachable() {
+		if (ipAddressMap != null) {
+			ipAddressMap.testReachable() ;
+		}
+	}
+	
+	public Reachable getReachable() {
+		if (ipAddressMap != null) {
+			return ipAddressMap.getReachable() ;
+		} else {
+			return Reachable.UNKNOWN ;
+		}
+	}
 }

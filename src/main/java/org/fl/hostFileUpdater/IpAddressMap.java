@@ -8,12 +8,17 @@ import java.util.Set;
 
 public class IpAddressMap {
 
+	public enum Reachable { UNKNOWN, TRUE, FALSE } ;
+	
 	private final String ipAddress ;
 	private Set<String>  hostNames ;
+	private Reachable 	 reachable ;
 	
 	// Mapping between an IP address and a list of host names
 	// The host file line must not be a comment line, but may includes a comment
 	public IpAddressMap(String hostFileLine) {
+		
+		reachable = Reachable.UNKNOWN ;
 		
 		String[] items = hostFileLine.split(" |\t") ;
 		hostNames = new HashSet<String>() ;
@@ -65,20 +70,29 @@ public class IpAddressMap {
 		return hostNames;
 	}
 
-	public boolean isReachable() {
+	public boolean testReachable() {
 			
-		boolean reachable = false ;
+		boolean hasBeenReach = false ;
 		InetAddress inet;
 		try {
 			inet = InetAddress.getByName(ipAddress);
 	
 			if (inet != null) {
-				reachable = inet.isReachable(3000) ;
+				hasBeenReach = inet.isReachable(3000) ;
 			} 
 		} catch (IOException e) {
 			// means unreachable
 		}
-		return reachable ;
+		if (hasBeenReach) {
+			reachable = Reachable.TRUE ;
+		} else {
+			reachable = Reachable.FALSE ;
+		}
+		return hasBeenReach ;
+	}
+
+	public Reachable getReachable() {
+		return reachable;
 	}
 	
 }
