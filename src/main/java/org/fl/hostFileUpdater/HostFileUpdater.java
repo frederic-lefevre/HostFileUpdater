@@ -34,10 +34,10 @@ public class HostFileUpdater {
 	private HostFile resultHostFile ;
 	
 	// list of host file to choose from
-	private ArrayList<HostFile> hostFileList ;
+	private List<HostFile> hostFileList ;
 	
 	// list of chosen host file
-	private ArrayList<HostFile> chosenHostFileList ;
+	private List<HostFile> chosenHostFileList ;
 	
 	// host file composed of base host file plus all the host file to choose 
 	private HostFile totalHostFile ;
@@ -47,13 +47,13 @@ public class HostFileUpdater {
 	
 	// list of target host file file that are not present in the base host file or in any of the host file to choose
 	// So if the target host file is updated, they will be lost
-	private ArrayList<HostFileStatement> hostFileStatementsToBeLost ;
+	private List<HostFileStatement> hostFileStatementsToBeLost ;
 	
-	private ArrayList<String> hostCurrentIpAddresses ;
-	private String 			  machineName ;
-	private HostFile 		  localHostMappings ;
-	private String 			  hostFileStyle ;
-	private Logger 			  hLog ;
+	private List<String> hostCurrentIpAddresses ;
+	private String 		 machineName ;
+	private HostFile 	 localHostMappings ;
+	private String 		 hostFileStyle ;
+	private Logger 		 hLog ;
 	
 	public HostFileUpdater(AdvancedProperties props, Logger l) {
 		
@@ -274,7 +274,7 @@ public class HostFileUpdater {
 			buff.append("do not includes ") ;
 		}
 		buff.append("base mappings\n\nParticular mappings included:\n") ;
-		ArrayList<HostFile> includedHostFile = targetHostFile.getIncludedHostFiles(hostFileList) ;		 
+		List<HostFile> includedHostFile = targetHostFile.getIncludedHostFiles(hostFileList) ;		 
 		for (HostFile ihf : includedHostFile) {
 			buff.append(ihf.toString()).append("\n") ;
 		}

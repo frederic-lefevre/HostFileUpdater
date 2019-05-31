@@ -194,9 +194,9 @@ public class HostFile {
 	}
 	
 	// Get the host file statements of hf host file which are not included in this host file
-	public ArrayList<HostFileStatement> getNotIncludedStatements(HostFile hf) {
+	public List<HostFileStatement> getNotIncludedStatements(HostFile hf) {
 		
-		ArrayList<HostFileStatement> result = new ArrayList<HostFileStatement>() ;
+		List<HostFileStatement> result = new ArrayList<HostFileStatement>() ;
 		
 		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
 			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
@@ -208,7 +208,7 @@ public class HostFile {
 	}
 	
 	// Returns true if the IP address map is part of this host file 
-	public boolean includes(IpAddressMap ipam) {
+	private boolean includes(IpAddressMap ipam) {
 		
 		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
 			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
@@ -233,9 +233,9 @@ public class HostFile {
 	}
 	
 	// Return the list of host files (from the list of files in parameter) included in this host file 
-	public ArrayList<HostFile> getIncludedHostFiles(ArrayList<HostFile> hostFiles) {
+	public List<HostFile> getIncludedHostFiles(List<HostFile> hostFiles) {
 		
-		ArrayList<HostFile> resultHostFiles = new ArrayList<HostFile>() ;
+		List<HostFile> resultHostFiles = new ArrayList<HostFile>() ;
 		
 		for (HostFile hf : hostFiles) {
 			if (this.includes(hf)) {
