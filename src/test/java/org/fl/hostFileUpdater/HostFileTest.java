@@ -31,7 +31,30 @@ class HostFileTest {
 		assertEquals("", hf2.toString()) ;
 		assertNull(hf2.getFilePath()) ;
 		
+		assertFalse(hf1.includes(hf2)) ;
+		assertTrue(hf2.includes(hf1)) ;
 		
+		List<String> statements2 = Arrays.asList(
+				"127.0.0.1	localhost\r\n" ,
+				
+				"192.168.113.134 ESWPURE04.ipfs.cloud.ibm.com\r\n" ,
+				"192.168.113.135 ESWPURE05.ipfs.cloud.ibm.com\r\n" ) ;
+		
+		HostFile hf3 = new HostFile(statements2, log) ;
+		
+		hf1.append(hf3) ;
+		assertTrue(hf2.includes(hf1)) ;
+		assertTrue(hf2.includes(hf3)) ;
+		assertFalse(hf1.includes(hf2)) ;
+		
+		List<String> statements3 = Arrays.asList(				
+				"127.0.0.1	LAPTOP-4LB058J2\r\n" 
+				 ) ;
+		HostFile hf4 = new HostFile(statements3, log) ;
+		HostFile hf5 = new HostFile(log) ;
+		hf5.append(hf3).append(hf4) ;
+		assertTrue(hf2.includes(hf5)) ;
+		assertTrue(hf5.includes(hf4)) ;
 	}
 	
 	
