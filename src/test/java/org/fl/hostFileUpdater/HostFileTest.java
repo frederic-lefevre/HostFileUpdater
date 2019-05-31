@@ -2,6 +2,7 @@ package org.fl.hostFileUpdater;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -62,6 +63,26 @@ class HostFileTest {
 		List<HostFileStatement> stList = hf3.getNotIncludedStatements(hf2) ;
 		assertEquals(1, stList.size()) ;
 
+		HostFileStatement hfs1 = stList.get(0) ;
+		HostFileStatement hfs2 = new HostFileStatement("127.0.0.1	LAPTOP-4LB058J2\r\n") ;
+		assertTrue(hfs1.getIpAddressMap().isTheSameAs(hfs2.getIpAddressMap())) ;
+		
+		List<String> statements4 = Arrays.asList(				
+				"127.0.0.1	SomeThingElse\n" 
+				 ) ;
+		HostFile hf6 = new HostFile(statements4, log) ;
+
+		List<HostFile> hfList = new ArrayList<HostFile>() ;
+		hfList.add(hf3) ;
+		hfList.add(hf4) ;
+		hfList.add(hf6) ;
+		
+		List<HostFile> includuedHf = hf2.getIncludedHostFiles(hfList) ;
+		
+		assertEquals(2, includuedHf.size()) ;
+		assertFalse(includuedHf.contains(hf6)) ;
+		assertTrue(includuedHf.contains(hf3)) ;
+		assertTrue(includuedHf.contains(hf4)) ;
 	}
 	
 	
