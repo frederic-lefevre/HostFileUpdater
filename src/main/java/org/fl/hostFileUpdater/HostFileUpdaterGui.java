@@ -48,9 +48,9 @@ public class HostFileUpdaterGui   extends JFrame {
 	
 	private HostFileUpdater hfu ;
 	private JList<HostFile> hostFileGuiList ;
-	private JEditorPane resultFile ;
-	private JButton saveHostFile ;
-	private JTextArea infoArea ;
+	private JEditorPane 	resultFile ;
+	private JButton 		saveHostFile ;
+	private JTextArea 		infoArea ;
 	
 	public HostFileUpdaterGui() {
 		

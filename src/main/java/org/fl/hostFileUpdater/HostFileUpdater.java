@@ -21,41 +21,37 @@ public class HostFileUpdater {
 	private final static String NEWLINE_HTML = "<br/>" ; 
 	
 	// system host file to update
-	private HostFile targetHostFile ;
+	private final HostFile targetHostFile ;
 	
 	// base host file that must be present
-	private HostFile baseHostFile ;
+	private final HostFile baseHostFile ;
 	
 	// comment at the begining of the host file
-	private HostFile hostFileCommentHeader ;
+	private final HostFile hostFileCommentHeader ;
 	
 	// result host file
 	private HostFile resultHostFile ;
 	
 	// list of host file to choose from
-	private List<HostFile> hostFileList ;
+	private final List<HostFile> hostFileList ;
 	
 	// list of chosen host file
 	private List<HostFile> chosenHostFileList ;
 	
-	// host file composed of base host file plus all the host file to choose 
-	private HostFile totalHostFile ;
-	
 	// File path where to save the old host file
-	private Path backupHostFile ;
+	private final Path backupHostFile ;
 	
 	// list of target host file file that are not present in the base host file or in any of the host file to choose
 	// So if the target host file is updated, they will be lost
 	private List<HostFileStatement> hostFileStatementsToBeLost ;
 	
 	private HostFile 	 localHostMappings ;
-	private String 		 hostFileStyle ;
 	private Logger 		 hLog ;
 	
 	public HostFileUpdater(AdvancedProperties props, Logger l) {
 		
 		hLog = l ;
-		hostFileStyle = props.getProperty("hostFileUpdate.cssFilePath") ;
+		String hostFileStyle = props.getProperty("hostFileUpdate.cssFilePath") ;
 		HostFile.setCssStyleDefinition(hostFileStyle, hLog);
 		
 		// Get the target host file and the host file base
@@ -67,7 +63,6 @@ public class HostFileUpdater {
 		hostFileCommentHeader = new HostFile(pComment, hLog) ;
 		baseHostFile   		  = new HostFile(pBase,    hLog) ;
 		targetHostFile 		  = new HostFile(pTarget,  hLog) ;
-		totalHostFile 		  = new HostFile(pBase,    hLog) ;
 		
 		// Get the list of host file parts
 		String hfPartsDir = props.getProperty("hostFileUpdate.hostFileDir") ;
@@ -81,6 +76,7 @@ public class HostFileUpdater {
 		localHostMappings = new LocalAddressesHostFile(additionnalHostNames, hLog) ;
 		
 		// Build the totalHostFile to find the statements that will be lost if the host file is saved
+		HostFile totalHostFile = new HostFile(pBase,    hLog) ;
 		totalHostFile.append(localHostMappings) ;
 		for (Path hPartPath : hostFilePartsPaths) {
 			HostFile hf = new HostFile(hPartPath, hLog) ;
