@@ -55,6 +55,13 @@ class HostFileTest {
 		hf5.append(hf3).append(hf4) ;
 		assertTrue(hf2.includes(hf5)) ;
 		assertTrue(hf5.includes(hf4)) ;
+		
+		List<HostFileStatement> emptyList = hf5.getNotIncludedStatements(hf4) ;
+		assertEquals(0, emptyList.size()) ;
+		
+		List<HostFileStatement> stList = hf3.getNotIncludedStatements(hf2) ;
+		assertEquals(1, stList.size()) ;
+
 	}
 	
 	

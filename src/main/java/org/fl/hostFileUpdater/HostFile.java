@@ -198,7 +198,7 @@ public class HostFile {
 		
 		List<HostFileStatement> result = new ArrayList<HostFileStatement>() ;
 		
-		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
+		for (StatementOfThisFile fileStatement : hf.StatementsOfThisFile) {
 			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
 			if ((m != null) && (! includes(m))) {
 				result.add(fileStatement.hostFileStatement) ;
