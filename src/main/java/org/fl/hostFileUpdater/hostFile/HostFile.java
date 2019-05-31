@@ -34,7 +34,7 @@ public class HostFile {
 			this.hostFileStatement = hostFileStatement;
 		}
 		public boolean inConflictWith(StatementOfThisFile anotherStatement) {
-			return (hostFileStatement.containSameHostNameWithDiffentAddress(anotherStatement.hostFileStatement)) ;
+			return (this.hostFileStatement.containSameHostNameWithDiffentAddress(anotherStatement.hostFileStatement)) ;
 		}
 	}
 	
