@@ -105,7 +105,7 @@ public class HostFile {
 	// Add a list of HostFileStatements to the HostFile
 	private void addHostFileStatements(List<StatementOfThisFile> fileStatements) {
 		for (StatementOfThisFile fileStatement : fileStatements) {
-			addOneHostFileStatement(fileStatement) ;
+			addOneHostFileStatement(new StatementOfThisFile(fileStatement.inConflict, fileStatement.hostFileStatement)) ;
 		}
 	}
 	
@@ -153,7 +153,7 @@ public class HostFile {
 		
 		StringBuilder res = new StringBuilder() ;
 		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
-			String spanTag ;
+			String spanTag = SPAN_NORMAL ;
 			HostFileStatement statement = fileStatement.hostFileStatement ;
 			if (statement.isCommentLine()) {
 				spanTag = SPAN_COMMENT ;
@@ -161,8 +161,6 @@ public class HostFile {
 				spanTag = SPAN_CONFLICT ;
 			} else if (statement.getReachable().equals(Reachable.FALSE)) {
 				spanTag = SPAN_UNREACHABLE ;
-			} else {
-				spanTag = SPAN_NORMAL ;
 			}
 			res.append(spanTag).append(statement.getLine()).append(ENDLINE_HTML) ;
 		}
