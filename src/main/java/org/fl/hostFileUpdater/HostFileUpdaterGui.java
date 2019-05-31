@@ -20,6 +20,8 @@ import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.fl.hostFileUpdater.hostFile.HostFile;
+
 import com.ibm.lge.fl.util.RunningContext;
 
 public class HostFileUpdaterGui   extends JFrame {

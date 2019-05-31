@@ -1,4 +1,4 @@
-package org.fl.hostFileUpdater;
+package org.fl.hostFileUpdater ;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,17 +9,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.fl.hostFileUpdater.hostFile.HostFile;
+import org.fl.hostFileUpdater.hostFile.LocalAddressesHostFile;
+
 import com.ibm.lge.fl.util.AdvancedProperties;
 import com.ibm.lge.fl.util.FileSet;
-import com.ibm.lge.fl.util.os.NetworkUtils;
 
 public class HostFileUpdater {
 
 	private final static String NEWLINE 	 = System.getProperty("line.separator");
 	private final static String NEWLINE_HTML = "<br/>" ; 
-	private final static String LOCALHOST 	 = "localhost" ;
-	private final static String LOCALIP 	 = "127.0.0.1" ;
-	private final static char 	TABCHAR 	 = '\t' ;
 	
 	// system host file to update
 	private HostFile targetHostFile ;
@@ -49,8 +48,6 @@ public class HostFileUpdater {
 	// So if the target host file is updated, they will be lost
 	private List<HostFileStatement> hostFileStatementsToBeLost ;
 	
-	private List<String> hostCurrentIpAddresses ;
-	private String 		 machineName ;
 	private HostFile 	 localHostMappings ;
 	private String 		 hostFileStyle ;
 	private Logger 		 hLog ;
@@ -80,30 +77,8 @@ public class HostFileUpdater {
 		chosenHostFileList = new ArrayList<HostFile>() ;
 		
 		// Build the local host mappings
-		// Get the current IP addresses and machine name for this host
-		List<String> localHostMappingsString = new ArrayList<String>() ;
-		localHostMappingsString.add("# Local addresses mappings") ;
-		NetworkUtils nu = new NetworkUtils() ;
-		hostCurrentIpAddresses = nu.getIPv4List() ;
-		machineName = nu.getMachineName() ;
-		String[] additionnalHostNames = applyPattern( props.getArrayOfString("hostFileUpdate.localHostNames", ";")) ;
-		localHostMappingsString.add(LOCALIP + TABCHAR + LOCALHOST) ;
-		localHostMappingsString.add(LOCALIP + TABCHAR + machineName) ;
-		if ( (additionnalHostNames != null) && (additionnalHostNames.length > 0) ) {
-			for (String host : additionnalHostNames) {
-				localHostMappingsString.add(LOCALIP + TABCHAR + host) ;
-			}
-		}
-		for (String ip : hostCurrentIpAddresses) {
-			localHostMappingsString.add(ip + TABCHAR + LOCALHOST) ;
-			localHostMappingsString.add(ip + TABCHAR + machineName) ;
-			if ( (additionnalHostNames != null) && (additionnalHostNames.length > 0) ) {
-				for (String host : additionnalHostNames) {
-					localHostMappingsString.add(ip + TABCHAR + host) ;
-				}
-			}
-		}
-		localHostMappings = new HostFile(localHostMappingsString, hLog) ;
+		String[] additionnalHostNames = props.getArrayOfString("hostFileUpdate.localHostNames", ";") ;
+		localHostMappings = new LocalAddressesHostFile(additionnalHostNames, hLog) ;
 		
 		// Build the totalHostFile to find the statements that will be lost if the host file is saved
 		totalHostFile.append(localHostMappings) ;
@@ -115,15 +90,6 @@ public class HostFileUpdater {
 		
 		// Host file statement to be lost if the host file is updated
 		hostFileStatementsToBeLost = totalHostFile.getNotIncludedStatements(targetHostFile) ;
-	}
-	
-	private String[] applyPattern(String[] as) {
-		if ( (as != null) && (as.length > 0)) {
-			for (int i=0; i < as.length; i++) {
-				as[i] = as[i].replace("%m", machineName) ;
-			}
-		}
-		return as ;
 	}
 	
 	// Get all the possible host file parts to choose from

@@ -1,4 +1,4 @@
-package org.fl.hostFileUpdater;
+package org.fl.hostFileUpdater.hostFile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.fl.hostFileUpdater.HostFileStatement;
+import org.fl.hostFileUpdater.hostFile.HostFile;
 import org.junit.jupiter.api.Test;
 
 class HostFileTest {

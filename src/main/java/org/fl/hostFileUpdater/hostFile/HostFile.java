@@ -1,4 +1,4 @@
-package org.fl.hostFileUpdater;
+package org.fl.hostFileUpdater.hostFile;
 
 import java.io.IOException;
 import java.net.URI;
@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.fl.hostFileUpdater.HostFileStatement;
+import org.fl.hostFileUpdater.IpAddressMap;
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 
 public class HostFile {
@@ -94,7 +96,7 @@ public class HostFile {
 	}
 	
 	// Add a list of lines the HostFile
-	private void addHostFileLines(List<String> fileContent) {
+	protected void addHostFileLines(List<String> fileContent) {
 		for (String line : fileContent) {
 			addOneLineToHostFile(line) ;
 		}
