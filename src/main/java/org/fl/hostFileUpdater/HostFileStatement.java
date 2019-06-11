@@ -24,14 +24,13 @@ public class HostFileStatement {
 
 	private boolean checkCommentLine(String line) {
 		
-		boolean res = true ;
 		String l = line.trim() ;
-		if ((l != null) && (! l.isEmpty())) {
-			if (! l.startsWith(COMMENT_START)) {
-				res = false ;
-			}
-		}
-		return res ;				
+		if ((l != null) 	&& 
+			(! l.startsWith(COMMENT_START))) {
+				return false ;
+		} else {
+			return true ;
+		}					
 	}
 
 	public boolean isCommentLine() {
