@@ -20,7 +20,7 @@ public class LocalAddressesHostFile extends HostFile {
 		List<String> localHostMappingsString = new ArrayList<String>() ;
 		localHostMappingsString.add("# Local addresses mappings") ;
 		
-		NetworkUtils nu = new NetworkUtils() ;
+		NetworkUtils nu = new NetworkUtils(true) ;
 		List<String> hostCurrentIpAddresses = nu.getIPv4List() ;
 		String machineName = nu.getMachineName() ;
 		String[] additionnalHostNames = applyPattern(machineName, otherLocalHostNames) ;
