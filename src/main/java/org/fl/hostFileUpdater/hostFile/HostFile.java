@@ -188,7 +188,7 @@ public class HostFile {
 	
 	// Append a HostFile to this HostFile
 	public HostFile append(HostFile hf) {	
-		addOneLineToHostFile("");
+//		addOneLineToHostFile("");
 		addHostFileStatements(hf.StatementsOfThisFile);
 		return this ;
 	}

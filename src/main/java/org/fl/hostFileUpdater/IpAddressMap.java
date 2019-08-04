@@ -31,10 +31,10 @@ public class IpAddressMap {
 		boolean comment = false ;
 		for (int i=1; (i < items.length) && (! comment); i++) {
 			String host = items[i].trim() ;
-			if ((! host.startsWith("#"))  &&
-				(! host.isEmpty())) {
+			if (! host.startsWith("#")) {
+				if (! host.isEmpty()) {
 					hostNames.add(host.toLowerCase()) ;
-				
+				}
 			} else {
 				comment = true ;
 			}
