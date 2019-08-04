@@ -98,7 +98,11 @@ public class HostFile {
 	// Add a list of lines the HostFile
 	protected void addHostFileLines(List<String> fileContent) {
 		for (String line : fileContent) {
-			addOneLineToHostFile(line) ;
+			try {
+				addOneLineToHostFile(line) ;
+			} catch (Exception e) {
+				hLog.log(Level.SEVERE, "Exception when reading line \"" + line + "\"", e);
+			}
 		}
 	}
 	

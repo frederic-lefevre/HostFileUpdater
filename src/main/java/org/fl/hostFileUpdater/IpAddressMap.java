@@ -24,20 +24,20 @@ public class IpAddressMap {
 		hostNames = new HashSet<String>() ;
 		if ((items != null) && (items.length > 1)) {
 			ipAddress = items[0].trim() ; 
+				
+			boolean comment = false ;
+			for (int i=1; (i < items.length) && (! comment); i++) {
+				String host = items[i].trim() ;
+				if (! host.startsWith("#")) {
+					if (! host.isEmpty()) {
+						hostNames.add(host.toLowerCase()) ;
+					}
+				} else {
+					comment = true ;
+				}
+			}
 		} else {
 			ipAddress = null ;
-		}
-		
-		boolean comment = false ;
-		for (int i=1; (i < items.length) && (! comment); i++) {
-			String host = items[i].trim() ;
-			if (! host.startsWith("#")) {
-				if (! host.isEmpty()) {
-					hostNames.add(host.toLowerCase()) ;
-				}
-			} else {
-				comment = true ;
-			}
 		}
 	}
 
