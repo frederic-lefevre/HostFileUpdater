@@ -10,9 +10,10 @@ public class IpAddressMap {
 
 	public enum Reachable { UNKNOWN, TRUE, FALSE } ;
 	
-	private final String ipAddress ;
-	private Set<String>  hostNames ;
-	private Reachable 	 reachable ;
+	private final String 	  ipAddress ;
+	private final InetAddress inet ;
+	private Set<String>  	  hostNames ;
+	private Reachable 	 	  reachable ;
 	
 	// Mapping between an IP address and a list of host names
 	// The host file line must not be a comment line, but may includes a comment
@@ -23,8 +24,17 @@ public class IpAddressMap {
 		String[] items = hostFileLine.trim().split(" |\t") ;
 		hostNames = new HashSet<String>() ;
 		if ((items != null) && (items.length > 1)) {
-			ipAddress = items[0].trim() ; 
-				
+			
+			String ipAddTemp = items[0].trim() ;
+			InetAddress inetTemp = null ;
+			try {
+				inetTemp = InetAddress.getByName(ipAddTemp) ;
+			} catch (Exception e) {
+				ipAddTemp = null ;
+			}
+			ipAddress = ipAddTemp ;
+			inet 	  = inetTemp ;
+					
 			boolean comment = false ;
 			for (int i=1; (i < items.length) && (! comment); i++) {
 				String host = items[i].trim() ;
@@ -38,6 +48,7 @@ public class IpAddressMap {
 			}
 		} else {
 			ipAddress = null ;
+			inet	  = null ;
 		}
 	}
 
@@ -91,10 +102,7 @@ public class IpAddressMap {
 			
 		boolean hasBeenReach = false ;
 		if (ipAddress != null) {
-			InetAddress inet;
 			try {
-				inet = InetAddress.getByName(ipAddress);
-		
 				if (inet != null) {
 					hasBeenReach = inet.isReachable(3000) ;
 				} 
