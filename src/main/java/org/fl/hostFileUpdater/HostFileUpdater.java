@@ -112,8 +112,7 @@ public class HostFileUpdater {
 		
 		// 1) Generate the host file result
 		generateResultHostFile() ;
-		
-		
+				
 		// 2) Print (HTML format) the host file result (rebuild it, do not use the host file generated in step 1,
 		//    because we do not want to highlight conflicts in the local mappings ("normal conflict"))
 		StringBuilder resultHostFile = new StringBuilder() ;
@@ -243,8 +242,7 @@ public class HostFileUpdater {
 		
 		buff.append("\n").append(printHostFileStatementsToBeLost()) ;
 		
-		return buff.toString() ;
-		
+		return buff.toString() ;		
 	}
 	
 	public String getPresentHostFile() {

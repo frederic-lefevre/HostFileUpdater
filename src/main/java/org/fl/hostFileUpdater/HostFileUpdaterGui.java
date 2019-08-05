@@ -28,9 +28,6 @@ public class HostFileUpdaterGui   extends JFrame {
 
 	private static final String DEFAULT_PROP_FILE = "hostFileUpdater.properties";
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1384102217727660509L;
 
 	public static void main(String[] args) {
@@ -192,8 +189,7 @@ public class HostFileUpdaterGui   extends JFrame {
 		hfTabs.add("Analyse host file", parsePanel) ;
 		hfTabs.add("Compose host file", updatePanel) ;
 		
-		getContentPane().add(hfTabs) ;
-		
+		getContentPane().add(hfTabs) ;		
 	}
 
 	// List selection listener : action when a host file part is selected
@@ -235,8 +231,7 @@ public class HostFileUpdaterGui   extends JFrame {
 				}
 				saveHostFile.setText(msg) ;
 				infoArea.append("\n" + msg);
-			}
-			
+			}			
 		}
 	}
 	
@@ -246,8 +241,7 @@ public class HostFileUpdaterGui   extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 						
 			// Build and display the resulting host file
-	    	resultFile.setText(hfu.buildResultHostFile(true));
-			
+	    	resultFile.setText(hfu.buildResultHostFile(true));			
 		}
 	}
 }

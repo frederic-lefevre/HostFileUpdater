@@ -42,7 +42,7 @@ public class HostFile {
 
 	private final Path filePath ;
 	
-	private Logger hLog ;
+	private final Logger hLog ;
 	
 	private static String htmlFileBegin =  "<html><body>" ;
 	

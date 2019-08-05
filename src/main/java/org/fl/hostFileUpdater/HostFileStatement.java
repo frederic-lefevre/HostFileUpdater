@@ -23,8 +23,7 @@ public class HostFileStatement {
 		}
 	}
 
-	private boolean checkCommentLine(String l) {
-		
+	private boolean checkCommentLine(String l) {		
 		return ((l == null) || (l.startsWith(COMMENT_START))) ;			
 	}
 
