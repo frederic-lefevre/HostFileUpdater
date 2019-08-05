@@ -66,7 +66,7 @@ class HostFileTest {
 		assertEquals(1, stList.size()) ;
 
 		HostFileStatement hfs1 = stList.get(0) ;
-		HostFileStatement hfs2 = new HostFileStatement("127.0.0.1	LAPTOP-4LB058J2\r\n") ;
+		HostFileStatement hfs2 = new HostFileStatement("127.0.0.1	LAPTOP-4LB058J2\r\n", log) ;
 		assertTrue(hfs1.getIpAddressMap().isTheSameAs(hfs2.getIpAddressMap())) ;
 		
 		List<String> statements4 = Arrays.asList(				

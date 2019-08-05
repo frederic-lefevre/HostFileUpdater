@@ -2,6 +2,8 @@ package org.fl.hostFileUpdater;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.logging.Logger;
+
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +11,8 @@ class HostFileStatementTest {
 
 	@Test
 	void test() {
+		
+		Logger log = Logger.getLogger(HostFileStatementTest.class.getName()) ;
 		
 		String ip1 = "192.168.65.101" ;
 		String h1  = "ioc15app.ibmplatform.com" ;
@@ -19,18 +23,18 @@ class HostFileStatementTest {
 		
 		String l3 = "# this is a comment" ;
 		
-		HostFileStatement hfs1 = new HostFileStatement(l1) ;
+		HostFileStatement hfs1 = new HostFileStatement(l1, log) ;
 		assertFalse(hfs1.isCommentLine()) ;
 		
-		HostFileStatement hfs2 = new HostFileStatement(l2) ;
+		HostFileStatement hfs2 = new HostFileStatement(l2, log) ;
 		assertFalse(hfs2.containSameHostNameWithDiffentAddress(hfs1)) ;
 		
-		HostFileStatement hfs3 = new HostFileStatement(l3) ;
+		HostFileStatement hfs3 = new HostFileStatement(l3, log) ;
 		assertTrue(hfs3.isCommentLine()) ;
 		
 		String ip2 =  "192.168.65.103" ;
 		String l4  = ip2 + " " + h1 + "\t" + h2 ;
-		HostFileStatement hfs4 = new HostFileStatement(l4) ;
+		HostFileStatement hfs4 = new HostFileStatement(l4, log) ;
 		assertTrue(hfs1.containSameHostNameWithDiffentAddress(hfs4)) ;
 		
 		assertEquals(Reachable.UNKNOWN,hfs4.getReachable()) ;

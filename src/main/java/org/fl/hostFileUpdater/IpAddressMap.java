@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class IpAddressMap {
 
@@ -17,7 +19,7 @@ public class IpAddressMap {
 	
 	// Mapping between an IP address and a list of host names
 	// The host file line must not be a comment line, but may includes a comment
-	public IpAddressMap(String hostFileLine) {
+	public IpAddressMap(String hostFileLine, Logger log) {
 		
 		reachable = Reachable.UNKNOWN ;
 		
@@ -31,6 +33,7 @@ public class IpAddressMap {
 				inetTemp = InetAddress.getByName(ipAddTemp) ;
 			} catch (Exception e) {
 				ipAddTemp = null ;
+				log.log(Level.SEVERE, "Wrong IpAddressMap line: " + hostFileLine, e);
 			}
 			ipAddress = ipAddTemp ;
 			inet 	  = inetTemp ;
@@ -49,6 +52,7 @@ public class IpAddressMap {
 		} else {
 			ipAddress = null ;
 			inet	  = null ;
+			log.severe("Wrong IpAddressMap line: " + hostFileLine);
 		}
 	}
 

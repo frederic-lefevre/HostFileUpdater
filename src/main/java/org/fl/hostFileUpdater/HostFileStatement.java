@@ -1,5 +1,7 @@
 package org.fl.hostFileUpdater;
 
+import java.util.logging.Logger;
+
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 
 public class HostFileStatement {
@@ -10,7 +12,7 @@ public class HostFileStatement {
 	private final String 	   line ;
 	private final IpAddressMap ipAddressMap ;
 	
-	public HostFileStatement(String hostFileLine) {
+	public HostFileStatement(String hostFileLine, Logger log) {
 		
 		super();
 		line = hostFileLine ;
@@ -19,7 +21,7 @@ public class HostFileStatement {
 		if ((isCommentLine) || (trimLine.isEmpty())) {
 			ipAddressMap = null ;
 		} else {
-			ipAddressMap = new IpAddressMap(trimLine) ;
+			ipAddressMap = new IpAddressMap(trimLine, log) ;
 		}
 	}
 
