@@ -90,20 +90,22 @@ public class IpAddressMap {
 	public boolean testReachable() {
 			
 		boolean hasBeenReach = false ;
-		InetAddress inet;
-		try {
-			inet = InetAddress.getByName(ipAddress);
-	
-			if (inet != null) {
-				hasBeenReach = inet.isReachable(3000) ;
-			} 
-		} catch (IOException e) {
-			// means unreachable
-		}
-		if (hasBeenReach) {
-			reachable = Reachable.TRUE ;
-		} else {
-			reachable = Reachable.FALSE ;
+		if (ipAddress != null) {
+			InetAddress inet;
+			try {
+				inet = InetAddress.getByName(ipAddress);
+		
+				if (inet != null) {
+					hasBeenReach = inet.isReachable(3000) ;
+				} 
+			} catch (IOException e) {
+				// means unreachable
+			}
+			if (hasBeenReach) {
+				reachable = Reachable.TRUE ;
+			} else {
+				reachable = Reachable.FALSE ;
+			}
 		}
 		return hasBeenReach ;
 	}
