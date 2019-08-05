@@ -43,7 +43,9 @@ public class IpAddressMap {
 
 	// Add a host name the the mapping
 	public IpAddressMap addHostName(String hostName) {
-		hostNames.add(hostName) ;
+		if (ipAddress != null) {
+			hostNames.add(hostName) ;
+		}
 		return this ;
 	}
 	
