@@ -138,7 +138,7 @@ public class HostFileUpdaterGui   extends JFrame {
 		resultFile.setContentType("text/html");
 		JScrollPane scrollPane = new JScrollPane(resultFile); 
 		resultFile.setEditable(false);
-		resultFile.setText(hfu.buildResultHostFile(false));
+		resultFile.setText(hfu.buildResultHostFile(true));
 		resultHFPanel.add(hostFileResultLabel) ;
 		resultHFPanel.add(scrollPane) ;
 		resultHostFilePanel.add(resultHFPanel) ;
@@ -167,7 +167,7 @@ public class HostFileUpdaterGui   extends JFrame {
 		WriteHostFile whf = new WriteHostFile() ;
 		saveHostFile.addActionListener(whf);
 		
-		JButton testHosts= new JButton("Test reachable hosts") ;
+		JButton testHosts= new JButton("Re-Test reachable hosts") ;
 		ReachableHostFile rhf = new ReachableHostFile() ;
 		testHosts.addActionListener(rhf) ;
 		
@@ -208,7 +208,7 @@ public class HostFileUpdaterGui   extends JFrame {
 	    		hfu.addChosenHostFiles(hostFileGuiList.getSelectedValuesList());
 	    		
 	    		// Build and display the resulting host file
-	    		resultFile.setText(hfu.buildResultHostFile(false));
+	    		resultFile.setText(hfu.buildResultHostFile(true));
 	    		
 	    		saveHostFile.setBackground(Color.ORANGE) ;
 				saveHostFile.setText("Write result to Host File " + hfu.getTargetHostFile().getFilePath());
