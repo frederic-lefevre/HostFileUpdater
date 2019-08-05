@@ -48,7 +48,7 @@ public class HostFileStatement {
 	// True if the IP address maps have not the same IP but have a name in common
 	public boolean containSameHostNameWithDiffentAddress(HostFileStatement hfs) {
 		
-		if (isCommentLine || hfs.isCommentLine || (ipAddressMap == null) || (hfs.getIpAddressMap() == null)) {
+		if ((ipAddressMap == null) || (hfs.getIpAddressMap() == null)) {
 			return false ;
 		} else {
 			return ipAddressMap.containSameHostNameWithDiffentAddress(hfs.getIpAddressMap()) ;
