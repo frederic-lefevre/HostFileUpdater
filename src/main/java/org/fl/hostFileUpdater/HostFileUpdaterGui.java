@@ -17,12 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.fl.hostFileUpdater.hostFile.HostFile;
 
 import com.ibm.lge.fl.util.RunningContext;
+import com.ibm.lge.fl.util.swing.ApplicationInfoPane;
 
 public class HostFileUpdaterGui   extends JFrame {
 
@@ -43,11 +46,13 @@ public class HostFileUpdaterGui   extends JFrame {
 		});
 	}
 	
-	private HostFileUpdater hfu ;
-	private JList<HostFile> hostFileGuiList ;
-	private JEditorPane 	resultFile ;
-	private JButton 		saveHostFile ;
-	private JTextArea 		infoArea ;
+	private HostFileUpdater 	hfu ;
+	private JList<HostFile> 	hostFileGuiList ;
+	private JEditorPane 		resultFile ;
+	private JButton 			saveHostFile ;
+	private JTextArea 			infoArea ;
+	private ApplicationInfoPane appInfoPane ;
+	private JTabbedPane 		hfTabs ;
 	
 	public HostFileUpdaterGui() {
 		
@@ -61,7 +66,7 @@ public class HostFileUpdaterGui   extends JFrame {
 		setTitle("Host File Updater") ;
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
-		JTabbedPane hfTabs  = new JTabbedPane() ;
+		hfTabs  = new JTabbedPane() ;
 		
 		JPanel parsePanel  = new JPanel () ;
 		JPanel updatePanel = new JPanel () ;
@@ -186,8 +191,13 @@ public class HostFileUpdaterGui   extends JFrame {
 		parsePanel.add(hfLabel);
 		parsePanel.add(parseScrollPane) ;
 		
-		hfTabs.add("Analyse host file", parsePanel) ;
-		hfTabs.add("Compose host file", updatePanel) ;
+		appInfoPane = new ApplicationInfoPane(runningContext) ;
+		
+		hfTabs.add("Analyse host file", 	  parsePanel) ;
+		hfTabs.add("Compose host file", 	  updatePanel) ;
+		hfTabs.add("Application information", appInfoPane) ;
+		
+		hfTabs.addChangeListener(new AppTabChangeListener());
 		
 		getContentPane().add(hfTabs) ;		
 	}
@@ -242,6 +252,17 @@ public class HostFileUpdaterGui   extends JFrame {
 						
 			// Build and display the resulting host file
 	    	resultFile.setText(hfu.buildResultHostFile(true));			
+		}
+	}
+	
+	private class AppTabChangeListener implements ChangeListener {
+
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			
+			if (hfTabs.getSelectedComponent().equals(appInfoPane)) {
+				appInfoPane.setInfos();
+			}			
 		}
 	}
 }
