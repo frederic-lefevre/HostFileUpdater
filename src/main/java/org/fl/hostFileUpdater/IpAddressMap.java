@@ -20,7 +20,7 @@ public class IpAddressMap {
 		
 		reachable = Reachable.UNKNOWN ;
 		
-		String[] items = hostFileLine.split(" |\t") ;
+		String[] items = hostFileLine.trim().split(" |\t") ;
 		hostNames = new HashSet<String>() ;
 		if ((items != null) && (items.length > 1)) {
 			ipAddress = items[0].trim() ; 
@@ -49,17 +49,32 @@ public class IpAddressMap {
 	
 	// True if the IP address maps have the same IP and the same set of names 
 	public boolean isTheSameAs(IpAddressMap ipam) {
-		return ( ipam.getIpAddress().equals(ipAddress) && ipam.getHostNames().equals(hostNames) ) ;
+		
+		if (ipAddress == null) {
+			return (ipam.getIpAddress() == null) ;
+		} else if (ipam.getIpAddress() == null) {
+			return false ;
+		} else {
+			return ( ipam.getIpAddress().equals(ipAddress) && ipam.getHostNames().equals(hostNames) ) ;
+		}
 	}
 	
 	// True if the IP address maps have not the same IP but have the same set of names
 	public boolean hasSameHostNamesWithDiffentAddress(IpAddressMap ipam) {
-		return ( (! ipam.getIpAddress().equals(ipAddress)) && ipam.getHostNames().equals(hostNames) ) ;
+		if ((ipAddress == null) || (ipam.getIpAddress() == null)) {
+			return false ;
+		} else {
+			return ( (! ipam.getIpAddress().equals(ipAddress)) && ipam.getHostNames().equals(hostNames) ) ;
+		}
 	}
 	
 	// True if the IP address maps have not the same IP but have a name in common
 	public boolean containSameHostNameWithDiffentAddress(IpAddressMap ipam) {
-		return ( (! ipam.getIpAddress().equals(ipAddress)) && (! Collections.disjoint(ipam.getHostNames(), hostNames)) ) ; 
+		if ((ipAddress == null) || (ipam.getIpAddress() == null)) {
+			return false ;
+		} else {
+			return ( (! ipam.getIpAddress().equals(ipAddress)) && (! Collections.disjoint(ipam.getHostNames(), hostNames)) ) ; 
+		}
 	}
 	
 	public String getIpAddress() {

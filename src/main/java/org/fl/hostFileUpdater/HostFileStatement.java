@@ -14,23 +14,18 @@ public class HostFileStatement {
 		
 		super();
 		line = hostFileLine ;
-		isCommentLine = checkCommentLine(line) ;
-		if ((isCommentLine) || (line.isEmpty())) {
+		String trimLine = line.trim() ;
+		isCommentLine = checkCommentLine(trimLine) ;
+		if ((isCommentLine) || (trimLine.isEmpty())) {
 			ipAddressMap = null ;
 		} else {
-			ipAddressMap = new IpAddressMap(hostFileLine) ;
+			ipAddressMap = new IpAddressMap(trimLine) ;
 		}
 	}
 
-	private boolean checkCommentLine(String line) {
+	private boolean checkCommentLine(String l) {
 		
-		String l = line.trim() ;
-		if ((l != null) 	&& 
-			(! l.startsWith(COMMENT_START))) {
-				return false ;
-		} else {
-			return true ;
-		}					
+		return ((l == null) || (l.startsWith(COMMENT_START))) ;			
 	}
 
 	public boolean isCommentLine() {

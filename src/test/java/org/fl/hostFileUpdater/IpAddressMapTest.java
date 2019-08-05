@@ -44,4 +44,47 @@ class IpAddressMapTest {
 		assertTrue(iam.hasSameHostNamesWithDiffentAddress(iam3)) ;
 	}
 
+	@Test
+	void testWrongIpam() {
+		
+		IpAddressMap iam = new IpAddressMap("  bidon \t ") ;
+		assertNull(iam.getIpAddress()) ;
+	}
+	
+	@Test
+	void testWrongIpam2() {
+		
+		IpAddressMap iam = new IpAddressMap("\t\t \t  \t  bidon \t ") ;
+		assertNull(iam.getIpAddress()) ;
+		
+		IpAddressMap iam2 = new IpAddressMap("  bidon \t ") ;
+		
+		assertFalse(iam.containSameHostNameWithDiffentAddress(iam2)) ;
+		assertFalse(iam.hasSameHostNamesWithDiffentAddress(iam2)) ;
+		assertTrue(iam.isTheSameAs(iam2)) ;
+	}
+	
+	@Test
+	void testWrongIpam3() {
+		
+		IpAddressMap iam = new IpAddressMap("\t\t \t  \t  bidon \t ") ;
+		assertNull(iam.getIpAddress()) ;
+		
+		IpAddressMap iam2 = new IpAddressMap("9.100.8.9 myHost") ;
+		
+		assertFalse(iam.containSameHostNameWithDiffentAddress(iam2)) ;
+		assertFalse(iam.hasSameHostNamesWithDiffentAddress(iam2)) ;
+		assertFalse(iam.isTheSameAs(iam2)) ;
+	}
+	
+	@Test
+	void testWrongIpam4() {
+		
+		IpAddressMap iam = new IpAddressMap("9.100.8.9 myHost") ;
+		IpAddressMap iam2 = new IpAddressMap("\t\t \t  \t  bidon \t ") ;
+		
+		assertFalse(iam.containSameHostNameWithDiffentAddress(iam2)) ;
+		assertFalse(iam.hasSameHostNamesWithDiffentAddress(iam2)) ;
+		assertFalse(iam.isTheSameAs(iam2)) ;
+	}
 }
