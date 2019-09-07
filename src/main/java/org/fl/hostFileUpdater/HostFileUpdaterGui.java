@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ import org.fl.hostFileUpdater.hostFile.HostFile;
 
 import com.ibm.lge.fl.util.RunningContext;
 import com.ibm.lge.fl.util.swing.ApplicationInfoPane;
+import com.ibm.lge.fl.util.swing.LogsDisplayPane;
 
 public class HostFileUpdaterGui   extends JFrame {
 
@@ -57,8 +59,9 @@ public class HostFileUpdaterGui   extends JFrame {
 	public HostFileUpdaterGui() {
 		
 		RunningContext runningContext = new RunningContext("HostFileUpdater", null, DEFAULT_PROP_FILE);
+		Logger hLog = runningContext.getpLog() ;
 		
-		hfu = new HostFileUpdater(runningContext.getProps(), runningContext.getpLog()) ;
+		hfu = new HostFileUpdater(runningContext.getProps(), hLog) ;
 		
    		// init main window
    		setBounds(50, 50, 1500, 1000);
@@ -193,9 +196,13 @@ public class HostFileUpdaterGui   extends JFrame {
 		
 		appInfoPane = new ApplicationInfoPane(runningContext) ;
 		
-		hfTabs.add("Analyse host file", 	  parsePanel) ;
+		// Tabbed Panel for logs display
+		LogsDisplayPane lPane = new LogsDisplayPane(hLog) ;
+		
+		hfTabs.add("Analyse host file", 	  parsePanel ) ;
 		hfTabs.add("Compose host file", 	  updatePanel) ;
 		hfTabs.add("Application information", appInfoPane) ;
+		hfTabs.add("Logs display", 			  lPane		 ) ;
 		
 		hfTabs.addChangeListener(new AppTabChangeListener());
 		
