@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,21 +20,23 @@ import javax.swing.event.ListSelectionListener;
 
 import org.fl.hostFileUpdater.HostFileUpdater;
 import org.fl.hostFileUpdater.hostFile.HostFile;
+import org.fl.hostFileUpdater.workers.HostFileComposer;
 
 public class ComposeHostFilePane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private JList<HostFile> 	hostFileGuiList ;
-	private JTextArea 			infoArea ;
-	private JButton 			saveHostFile ;
-	private JEditorPane 		resultFile ;
+	private final JList<HostFile> hostFileGuiList ;
+	private final JTextArea 	  infoArea ;
+	private final JButton 		  saveHostFile ;
+	private final JEditorPane 	  resultFile ;	
+	private final HostFileUpdater hfu ;
+	private final Logger 		  hLog ;
 	
-	private HostFileUpdater 	hfu ;
-	
-	public ComposeHostFilePane(HostFileUpdater 	hfu) {
+	public ComposeHostFilePane(HostFileUpdater hfu, Logger l) {
 		
 		super();
+		hLog = l ;
 		this.hfu = hfu ;
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)) ;
@@ -105,7 +108,11 @@ public class ComposeHostFilePane extends JPanel {
 		resultFile.setContentType("text/html");
 		JScrollPane scrollPane = new JScrollPane(resultFile); 
 		resultFile.setEditable(false);
-		resultFile.setText(hfu.buildResultHostFile(true));
+		
+		// Build and display the resulting host file
+		HostFileComposer hfc = new HostFileComposer(hfu, resultFile, hLog) ;
+		hfc.execute() ;	
+
 		resultHFPanel.add(hostFileResultLabel) ;
 		resultHFPanel.add(scrollPane) ;
 		resultHostFilePanel.add(resultHFPanel) ;
@@ -159,7 +166,9 @@ public class ComposeHostFilePane extends JPanel {
 	    		hfu.addChosenHostFiles(hostFileGuiList.getSelectedValuesList());
 	    		
 	    		// Build and display the resulting host file
-	    		resultFile.setText(hfu.buildResultHostFile(true));
+	    		// Build and display the resulting host file
+				HostFileComposer hfc = new HostFileComposer(hfu, resultFile, hLog) ;
+				hfc.execute() ;	
 	    		
 	    		saveHostFile.setBackground(Color.ORANGE) ;
 				saveHostFile.setText("Write result to Host File " + hfu.getTargetHostFile().getFilePath());
@@ -196,7 +205,8 @@ public class ComposeHostFilePane extends JPanel {
 		public void actionPerformed(ActionEvent ae) {
 						
 			// Build and display the resulting host file
-	    	resultFile.setText(hfu.buildResultHostFile(true));			
+			HostFileComposer hfc = new HostFileComposer(hfu, resultFile, hLog) ;
+			hfc.execute() ;			
 		}
 	}
 }

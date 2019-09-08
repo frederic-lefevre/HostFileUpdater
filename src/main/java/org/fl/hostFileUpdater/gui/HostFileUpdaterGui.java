@@ -53,12 +53,11 @@ public class HostFileUpdaterGui   extends JFrame {
    		setBounds(50, 50, 1500, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Host File Updater") ;
-//		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
 		hfTabs  = new JTabbedPane() ;
 				
 		parsePanel 	 = new ParseHostFilePane(hfu) ;
-		composePanel = new ComposeHostFilePane(hfu) ;		
+		composePanel = new ComposeHostFilePane(hfu, hLog) ;		
 		appInfoPane  = new ApplicationInfoPane(runningContext) ;
 		lPane 		 = new LogsDisplayPane(hLog) ;
 		

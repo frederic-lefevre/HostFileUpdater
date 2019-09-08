@@ -43,10 +43,10 @@ public class HostFileUpdater {
 	
 	// list of target host file file that are not present in the base host file or in any of the host file to choose
 	// So if the target host file is updated, they will be lost
-	private List<HostFileStatement> hostFileStatementsToBeLost ;
+	private final List<HostFileStatement> hostFileStatementsToBeLost ;
 	
-	private HostFile 	 localHostMappings ;
-	private Logger 		 hLog ;
+	private final HostFile 	  localHostMappings ;
+	private final Logger 	  hLog ;
 	
 	public HostFileUpdater(AdvancedProperties props, Logger l) {
 		
@@ -108,7 +108,7 @@ public class HostFileUpdater {
 	}
 	
 	// Build the result host file and return it as a string in HTML format, with conflicts highlighted
-	public String buildResultHostFile(boolean testReachable) {
+	public String buildResultHostFile() {
 		
 		// 1) Generate the host file result
 		generateResultHostFile() ;
@@ -128,9 +128,8 @@ public class HostFileUpdater {
 		for (HostFile hf : chosenHostFileList) {
 			bodyHostFile.append(hf) ;
 		}
-		if (testReachable) {
-			bodyHostFile.testReachableHosts() ; 
-		}
+		bodyHostFile.testReachableHosts() ; 
+		
 		// print this temporary host file with highlight for conflicts
 		resultHostFile.append(bodyHostFile.getHtmlBody(true)) ;
 		
@@ -248,4 +247,5 @@ public class HostFileUpdater {
 	public String getPresentHostFile() {
 		return targetHostFile.getContent().toString() ;
 	}
+
 }
