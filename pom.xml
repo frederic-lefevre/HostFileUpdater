@@ -71,7 +71,7 @@
 						</manifestEntries>
 						<manifest>
 							<mainClass>
-								org.fl.hostFileUpdater.HostFileUpdaterGui
+								org.fl.hostFileUpdater.gui.HostFileUpdaterGui
 							</mainClass>
 
 						</manifest>
