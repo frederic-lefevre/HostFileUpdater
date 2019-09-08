@@ -109,10 +109,6 @@ public class ComposeHostFilePane extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(resultFile); 
 		resultFile.setEditable(false);
 		
-		// Build and display the resulting host file
-		HostFileComposer hfc = new HostFileComposer(hfu, resultFile, hLog) ;
-		hfc.execute() ;	
-
 		resultHFPanel.add(hostFileResultLabel) ;
 		resultHFPanel.add(scrollPane) ;
 		resultHostFilePanel.add(resultHFPanel) ;
@@ -134,6 +130,7 @@ public class ComposeHostFilePane extends JPanel {
 		infoPanel.add(scrollPane4) ;
 		
 		saveHostFile = new JButton("Write result to Host File " + hfu.getTargetHostFile().getFilePath()) ;
+		saveHostFile.setEnabled(false);
 		Font font = new Font("Verdana", Font.BOLD, 18);
 		saveHostFile.setFont(font) ;
 		saveHostFile.setBackground(Color.ORANGE) ;
@@ -152,12 +149,18 @@ public class ComposeHostFilePane extends JPanel {
 		add(part1HostFilePanel) ;
 		add(resultHostFilePanel) ;
 		add(infoAndSavePanel) ;
+		
+		// Build and display the resulting host file
+		HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, hLog) ;
+		hfc.execute() ;	
 	}
 
 	// List selection listener : action when a host file part is selected
 	class HostFileListSelectionHandler implements ListSelectionListener {
 	    public void valueChanged(ListSelectionEvent e) {
 	    	if (e.getValueIsAdjusting() == false) {
+	    		
+	    		saveHostFile.setEnabled(false);
 	    		
 	    		// Reset the list of chosen host file parts
 	    		hfu.resetChosenHostFile();
@@ -166,8 +169,7 @@ public class ComposeHostFilePane extends JPanel {
 	    		hfu.addChosenHostFiles(hostFileGuiList.getSelectedValuesList());
 	    		
 	    		// Build and display the resulting host file
-	    		// Build and display the resulting host file
-				HostFileComposer hfc = new HostFileComposer(hfu, resultFile, hLog) ;
+				HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, hLog) ;
 				hfc.execute() ;	
 	    		
 	    		saveHostFile.setBackground(Color.ORANGE) ;
@@ -183,6 +185,7 @@ public class ComposeHostFilePane extends JPanel {
 		public void actionPerformed(ActionEvent ae) {
 			
 			if (ae.getSource() == saveHostFile) {
+				saveHostFile.setEnabled(false);
 				boolean success = hfu.saveResultHostFile();
 				String msg ;
 				if (success) {
@@ -195,6 +198,7 @@ public class ComposeHostFilePane extends JPanel {
 				}
 				saveHostFile.setText(msg) ;
 				infoArea.append("\n" + msg);
+				saveHostFile.setEnabled(true);
 			}			
 		}
 	}
@@ -203,9 +207,9 @@ public class ComposeHostFilePane extends JPanel {
 	class ReachableHostFile implements ActionListener {
 		
 		public void actionPerformed(ActionEvent ae) {
-						
+				
 			// Build and display the resulting host file
-			HostFileComposer hfc = new HostFileComposer(hfu, resultFile, hLog) ;
+			HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, hLog) ;
 			hfc.execute() ;			
 		}
 	}
