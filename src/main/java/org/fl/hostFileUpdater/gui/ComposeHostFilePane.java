@@ -151,7 +151,8 @@ public class ComposeHostFilePane extends JPanel {
 		add(infoAndSavePanel) ;
 		
 		// Build and display the resulting host file
-		HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, infoArea, hLog) ;
+		hostFileGuiList.setEnabled(false);
+		HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, infoArea, hostFileGuiList, hLog) ;
 		hfc.execute() ;	
 	}
 
@@ -162,6 +163,7 @@ public class ComposeHostFilePane extends JPanel {
 	    		
 	    		infoArea.append("\nUpdating result host file content...") ;
 	    		saveHostFile.setEnabled(false);
+	    		hostFileGuiList.setEnabled(false);
 	    		
 	    		// Reset the list of chosen host file parts
 	    		hfu.resetChosenHostFile();
@@ -170,7 +172,7 @@ public class ComposeHostFilePane extends JPanel {
 	    		hfu.addChosenHostFiles(hostFileGuiList.getSelectedValuesList());
 	    		
 	    		// Build and display the resulting host file
-				HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, infoArea, hLog) ;
+				HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, infoArea, hostFileGuiList, hLog) ;
 				hfc.execute() ;	
 
 	    	}
@@ -207,9 +209,10 @@ public class ComposeHostFilePane extends JPanel {
 		public void actionPerformed(ActionEvent ae) {
 				
 			infoArea.append("\nUpdating reachable host...") ;
+			hostFileGuiList.setEnabled(false);
 			
 			// Build and display the resulting host file
-			HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, infoArea, hLog) ;
+			HostFileComposer hfc = new HostFileComposer(hfu, resultFile, saveHostFile, infoArea, hostFileGuiList, hLog) ;
 			hfc.execute() ;			
 		}
 	}

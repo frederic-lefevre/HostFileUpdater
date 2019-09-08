@@ -7,10 +7,12 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
 import org.fl.hostFileUpdater.HostFileUpdater;
+import org.fl.hostFileUpdater.hostFile.HostFile;
 
 public class HostFileComposer extends SwingWorker<String,String> {
 
@@ -18,14 +20,16 @@ public class HostFileComposer extends SwingWorker<String,String> {
 	private final JEditorPane 	  hostFilePane ;
 	private final JButton		  writeHostFileButton ;
 	private final JTextArea		  infoArea ;
+	private final JList<HostFile> hostFileGuiList ;
 	private final Logger		  hLog ;
 	
-	public HostFileComposer(HostFileUpdater hfu, JEditorPane hfp, JButton jb, JTextArea ia, Logger l) {
+	public HostFileComposer(HostFileUpdater hfu, JEditorPane hfp, JButton jb, JTextArea ia, JList<HostFile> hfgl, Logger l) {
 		hLog				= l ;
 		hostFileUpdater 	= hfu ;
 		hostFilePane 		= hfp ;
 		writeHostFileButton = jb ;
 		infoArea			= ia ;
+		hostFileGuiList		= hfgl ;
 	}
 	
 	@Override
@@ -39,6 +43,7 @@ public class HostFileComposer extends SwingWorker<String,String> {
 		try {
 			hostFilePane.setText(get());
 			writeHostFileButton.setEnabled(true) ;
+			hostFileGuiList.setEnabled(true);
     		
 			writeHostFileButton.setBackground(Color.ORANGE) ;
 			writeHostFileButton.setText("Write result to Host File " + hostFileUpdater.getTargetHostFile().getFilePath());
