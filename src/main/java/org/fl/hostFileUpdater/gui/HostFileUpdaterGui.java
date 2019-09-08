@@ -1,4 +1,4 @@
-package org.fl.hostFileUpdater;
+package org.fl.hostFileUpdater.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.fl.hostFileUpdater.HostFileUpdater;
 import org.fl.hostFileUpdater.hostFile.HostFile;
 
 import com.ibm.lge.fl.util.RunningContext;
