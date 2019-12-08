@@ -49,6 +49,8 @@ public class HostFileUpdaterGui   extends JFrame {
 		hfTabs.add(parsePanel,  "Analyse host file", 0) ;
 		hfTabs.add(composePanel,"Compose host file", 1) ;
 		
+		hfTabs.setSelectedIndex(0) ;
+		
 		getContentPane().add(hfTabs) ;		
 	}
 }
