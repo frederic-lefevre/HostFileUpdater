@@ -4,15 +4,11 @@ import java.awt.EventQueue;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.fl.hostFileUpdater.HostFileUpdater;
 
 import com.ibm.lge.fl.util.RunningContext;
-import com.ibm.lge.fl.util.swing.ApplicationInfoPane;
-import com.ibm.lge.fl.util.swing.LogsDisplayPane;
+import com.ibm.lge.fl.util.swing.ApplicationTabbedPane;
 
 public class HostFileUpdaterGui   extends JFrame {
 
@@ -33,53 +29,26 @@ public class HostFileUpdaterGui   extends JFrame {
 		});
 	}
 	
-	private final HostFileUpdater 	hfu ;
-	
-	private final JTabbedPane hfTabs ;
-	
-	private final ParseHostFilePane   parsePanel ;
-	private final ComposeHostFilePane composePanel ;		
-	private final ApplicationInfoPane appInfoPane ;
-	private final LogsDisplayPane 	  lPane ;
-
 	public HostFileUpdaterGui() {
 		
 		RunningContext runningContext = new RunningContext("HostFileUpdater", null, DEFAULT_PROP_FILE);
 		Logger hLog = runningContext.getpLog() ;
 		
-		hfu = new HostFileUpdater(runningContext.getProps(), hLog) ;
+		HostFileUpdater hfu = new HostFileUpdater(runningContext.getProps(), hLog) ;
 		
    		// init main window
    		setBounds(50, 50, 1500, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Host File Updater") ;
 		
-		hfTabs  = new JTabbedPane() ;
+		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(runningContext) ;
 				
-		parsePanel 	 = new ParseHostFilePane(hfu) ;
-		composePanel = new ComposeHostFilePane(hfu, hLog) ;		
-		appInfoPane  = new ApplicationInfoPane(runningContext) ;
-		lPane 		 = new LogsDisplayPane(hLog) ;
+		ParseHostFilePane   parsePanel 	 = new ParseHostFilePane(hfu) ;
+		ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu, hLog) ;		
 		
-		hfTabs.add("Analyse host file", 	  parsePanel ) ;
-		hfTabs.add("Compose host file", 	  composePanel) ;
-		hfTabs.add("Application information", appInfoPane) ;
-		hfTabs.add("Logs display", 			  lPane		 ) ;
-		
-		hfTabs.addChangeListener(new AppTabChangeListener());
+		hfTabs.add(parsePanel,  "Analyse host file", 0) ;
+		hfTabs.add(composePanel,"Compose host file", 1) ;
 		
 		getContentPane().add(hfTabs) ;		
-	}
-
-
-	private class AppTabChangeListener implements ChangeListener {
-
-		@Override
-		public void stateChanged(ChangeEvent arg0) {
-			
-			if (hfTabs.getSelectedComponent().equals(appInfoPane)) {
-				appInfoPane.setInfos();
-			}			
-		}
 	}
 }
