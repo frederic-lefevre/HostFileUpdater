@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.fl.hostFileUpdater.HostFileStatement;
 import org.fl.hostFileUpdater.IpAddressMap;
@@ -238,15 +239,7 @@ public class HostFile {
 	
 	// Return the list of host files (from the list of files in parameter) included in this host file 
 	public List<HostFile> getIncludedHostFiles(List<HostFile> hostFiles) {
-		
-		List<HostFile> resultHostFiles = new ArrayList<HostFile>() ;
-		
-		for (HostFile hf : hostFiles) {
-			if (this.includes(hf)) {
-				resultHostFiles.add(hf) ;
-			}
-		}
-		return resultHostFiles ;
+		return hostFiles.stream().filter(this::includes).collect(Collectors.toList()) ;
 	}
 
 	public void testReachableHosts() {
