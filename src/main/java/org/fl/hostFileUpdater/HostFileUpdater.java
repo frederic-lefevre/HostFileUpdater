@@ -67,7 +67,7 @@ public class HostFileUpdater {
 		// Get the list of host file parts
 		Path hfPartsDir = props.getPathFromURI("hostFileUpdate.hostFileDir") ;
 		FileSet hfPartsSet = new FileSet(hfPartsDir, hLog) ;
-		ArrayList<Path> hostFilePartsPaths = hfPartsSet.getFileList() ;
+		List<Path> hostFilePartsPaths = hfPartsSet.getFileList() ;
 		hostFileList = new ArrayList<HostFile>() ;
 		chosenHostFileList = new ArrayList<HostFile>() ;
 		
