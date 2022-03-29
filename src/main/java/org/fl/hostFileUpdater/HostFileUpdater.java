@@ -11,9 +11,8 @@ import java.util.logging.Logger;
 
 import org.fl.hostFileUpdater.hostFile.HostFile;
 import org.fl.hostFileUpdater.hostFile.LocalAddressesHostFile;
-
-import com.ibm.lge.fl.util.AdvancedProperties;
-import com.ibm.lge.fl.util.FileSet;
+import org.fl.util.AdvancedProperties;
+import org.fl.util.FileSet;
 
 public class HostFileUpdater {
 

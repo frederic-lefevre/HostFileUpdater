@@ -6,9 +6,8 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 import org.fl.hostFileUpdater.HostFileUpdater;
-
-import com.ibm.lge.fl.util.RunningContext;
-import com.ibm.lge.fl.util.swing.ApplicationTabbedPane;
+import org.fl.util.RunningContext;
+import org.fl.util.swing.ApplicationTabbedPane;
 
 public class HostFileUpdaterGui   extends JFrame {
 

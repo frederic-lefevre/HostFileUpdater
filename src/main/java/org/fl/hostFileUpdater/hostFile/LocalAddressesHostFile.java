@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.lge.fl.util.os.NetworkUtils;
+import org.fl.util.os.NetworkUtils;
 
 public class LocalAddressesHostFile extends HostFile {
 
