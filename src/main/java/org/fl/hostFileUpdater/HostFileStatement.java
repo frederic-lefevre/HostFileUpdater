@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 
 public class HostFileStatement {
-
+	
 	private final static String COMMENT_START = "#" ;
 	
 	private final boolean 	   isCommentLine ;
@@ -45,7 +45,7 @@ public class HostFileStatement {
 		if ((isCommentLine) || (trimLine.isEmpty())) {
 			ipAddressMap = null ;
 		} else {
-			ipAddressMap = new IpAddressMap(trimLine, log) ;
+			ipAddressMap = new IpAddressMap(trimLine) ;
 		}
 	}
 

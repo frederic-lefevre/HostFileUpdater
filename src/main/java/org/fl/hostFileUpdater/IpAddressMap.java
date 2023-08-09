@@ -34,48 +34,52 @@ import java.util.logging.Logger;
 
 public class IpAddressMap {
 
-	public enum Reachable { UNKNOWN, TRUE, FALSE } ;
+	private static final Logger log = Control.getLogger();
 	
-	private final String 	  ipAddress ;
-	private final InetAddress inet ;
-	private Set<String>  	  hostNames ;
-	private Reachable 	 	  reachable ;
-	
+	public enum Reachable {
+		UNKNOWN, TRUE, FALSE
+	};
+
+	private final String ipAddress;
+	private final InetAddress inet;
+	private Set<String> hostNames;
+	private Reachable reachable;
+
 	// Mapping between an IP address and a list of host names
 	// The host file line must not be a comment line, but may includes a comment
-	public IpAddressMap(String hostFileLine, Logger log) {
-		
-		reachable = Reachable.UNKNOWN ;
-		
-		String[] items = hostFileLine.trim().split(" |\t") ;
-		hostNames = new HashSet<String>() ;
+	public IpAddressMap(String hostFileLine) {
+
+		reachable = Reachable.UNKNOWN;
+
+		String[] items = hostFileLine.trim().split(" |\t");
+		hostNames = new HashSet<String>();
 		if ((items != null) && (items.length > 1)) {
-			
-			String ipAddTemp = items[0].trim() ;
-			InetAddress inetTemp = null ;
+
+			String ipAddTemp = items[0].trim();
+			InetAddress inetTemp = null;
 			try {
-				inetTemp = InetAddress.getByName(ipAddTemp) ;
+				inetTemp = InetAddress.getByName(ipAddTemp);
 			} catch (Exception e) {
-				ipAddTemp = null ;
+				ipAddTemp = null;
 				log.log(Level.SEVERE, "Wrong IpAddressMap line: " + hostFileLine, e);
 			}
-			ipAddress = ipAddTemp ;
-			inet 	  = inetTemp ;
-					
-			boolean comment = false ;
-			for (int i=1; (i < items.length) && (! comment); i++) {
-				String host = items[i].trim() ;
-				if (! host.startsWith("#")) {
-					if (! host.isEmpty()) {
-						hostNames.add(host.toLowerCase()) ;
+			ipAddress = ipAddTemp;
+			inet = inetTemp;
+
+			boolean comment = false;
+			for (int i = 1; (i < items.length) && (!comment); i++) {
+				String host = items[i].trim();
+				if (!host.startsWith("#")) {
+					if (!host.isEmpty()) {
+						hostNames.add(host.toLowerCase());
 					}
 				} else {
-					comment = true ;
+					comment = true;
 				}
 			}
 		} else {
-			ipAddress = null ;
-			inet	  = null ;
+			ipAddress = null;
+			inet = null;
 			log.severe("Wrong IpAddressMap line: " + hostFileLine);
 		}
 	}
