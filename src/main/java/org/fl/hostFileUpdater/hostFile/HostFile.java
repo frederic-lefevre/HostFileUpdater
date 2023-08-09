@@ -117,7 +117,7 @@ public class HostFile {
 	
 	// Add one line to the HostFile
 	private void addOneLineToHostFile(String line) {	
-		addOneHostFileStatement(new StatementOfThisFile(false, new HostFileStatement(line, hLog))) ;		
+		addOneHostFileStatement(new StatementOfThisFile(false, new HostFileStatement(line))) ;		
 	}
 	
 	// Add a list of lines the HostFile

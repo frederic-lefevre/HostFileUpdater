@@ -24,8 +24,6 @@ SOFTWARE.
 
 package org.fl.hostFileUpdater;
 
-import java.util.logging.Logger;
-
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 
 public class HostFileStatement {
@@ -36,7 +34,7 @@ public class HostFileStatement {
 	private final String 	   line ;
 	private final IpAddressMap ipAddressMap ;
 	
-	public HostFileStatement(String hostFileLine, Logger log) {
+	public HostFileStatement(String hostFileLine) {
 		
 		super();
 		line = hostFileLine ;
