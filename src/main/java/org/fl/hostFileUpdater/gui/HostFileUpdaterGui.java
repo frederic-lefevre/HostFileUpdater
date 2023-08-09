@@ -25,17 +25,15 @@ SOFTWARE.
 package org.fl.hostFileUpdater.gui;
 
 import java.awt.EventQueue;
-import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
+import org.fl.hostFileUpdater.Control;
 import org.fl.hostFileUpdater.HostFileUpdater;
 import org.fl.util.RunningContext;
 import org.fl.util.swing.ApplicationTabbedPane;
 
 public class HostFileUpdaterGui   extends JFrame {
-
-	private static final String DEFAULT_PROP_FILE = "hostFileUpdater.properties";
 	
 	private static final long serialVersionUID = 1384102217727660509L;
 
@@ -54,20 +52,20 @@ public class HostFileUpdaterGui   extends JFrame {
 	
 	public HostFileUpdaterGui() {
 		
-		RunningContext runningContext = new RunningContext("HostFileUpdater", null, DEFAULT_PROP_FILE);
-		Logger hLog = runningContext.getpLog() ;
+		Control.init();
+		RunningContext context = Control.getRunningContext();
 		
-		HostFileUpdater hfu = new HostFileUpdater(runningContext.getProps(), hLog) ;
+		HostFileUpdater hfu = new HostFileUpdater(context.getProps(), Control.getLogger()) ;
 		
    		// init main window
    		setBounds(50, 50, 1500, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Host File Updater") ;
 		
-		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(runningContext) ;
+		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(context) ;
 				
 		ParseHostFilePane   parsePanel 	 = new ParseHostFilePane(hfu) ;
-		ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu, hLog) ;		
+		ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu, Control.getLogger()) ;		
 		
 		hfTabs.add(parsePanel,  "Analyse host file", 0) ;
 		hfTabs.add(composePanel,"Compose host file", 1) ;
