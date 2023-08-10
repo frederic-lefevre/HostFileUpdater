@@ -40,6 +40,8 @@ import org.fl.util.FileSet;
 
 public class HostFileUpdater {
 
+	private static final Logger log = Control.getLogger();
+	
 	private final static String NEWLINE 	 = System.getProperty("line.separator");
 	private final static String NEWLINE_HTML = "<br/>" ; 
 	
@@ -69,11 +71,9 @@ public class HostFileUpdater {
 	private final List<HostFileStatement> hostFileStatementsToBeLost ;
 	
 	private final HostFile 	  localHostMappings ;
-	private final Logger 	  hLog ;
 	
-	public HostFileUpdater(AdvancedProperties props, Logger l) {
+	public HostFileUpdater(AdvancedProperties props) {
 
-		hLog = l;
 		String hostFileStyle = props.getProperty("hostFileUpdate.cssFilePath");
 		HostFile.setCssStyleDefinition(hostFileStyle);
 
@@ -89,14 +89,14 @@ public class HostFileUpdater {
 
 		// Get the list of host file parts
 		Path hfPartsDir = props.getPathFromURI("hostFileUpdate.hostFileDir");
-		FileSet hfPartsSet = new FileSet(hfPartsDir, hLog);
+		FileSet hfPartsSet = new FileSet(hfPartsDir, log);
 		List<Path> hostFilePartsPaths = hfPartsSet.getFileList();
 		hostFileList = new ArrayList<HostFile>();
 		chosenHostFileList = new ArrayList<HostFile>();
 
 		// Build the local host mappings
 		String[] additionnalHostNames = props.getArrayOfString("hostFileUpdate.localHostNames", ";");
-		localHostMappings = new LocalAddressesHostFile(additionnalHostNames, hLog);
+		localHostMappings = new LocalAddressesHostFile(additionnalHostNames, log);
 
 		// Build the totalHostFile to find the statements that will be lost if the host
 		// file is saved
@@ -199,17 +199,17 @@ public class HostFileUpdater {
 		try {
 			Files.copy(hostFilePath, backupHostFile, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e1) {
-			hLog.log(Level.SEVERE, "IOException saving old target host file " + targetHostFile.getFilePath(), e1);
+			log.log(Level.SEVERE, "IOException saving old target host file " + targetHostFile.getFilePath(), e1);
 		}
 
 		// Save new host file to target
 		try {
 			Files.write(targetHostFile.getFilePath(), resultHostFile.getContent().toString().getBytes());
 		} catch (IOException e) {
-			hLog.log(Level.SEVERE, "IOException writing to target host file " + targetHostFile.getFilePath(), e);
+			log.log(Level.SEVERE, "IOException writing to target host file " + targetHostFile.getFilePath(), e);
 			res = false;
 		} catch (Exception e) {
-			hLog.log(Level.SEVERE, "Exception writing to target host file " + targetHostFile.getFilePath(), e);
+			log.log(Level.SEVERE, "Exception writing to target host file " + targetHostFile.getFilePath(), e);
 			res = false;
 		}
 		return res;
