@@ -28,22 +28,22 @@ import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 
 public class HostFileStatement {
 	
-	private final static String COMMENT_START = "#" ;
-	
-	private final boolean 	   isCommentLine ;
-	private final String 	   line ;
-	private final IpAddressMap ipAddressMap ;
-	
+	private final static String COMMENT_START = "#";
+
+	private final boolean isCommentLine;
+	private final String line;
+	private final IpAddressMap ipAddressMap;
+
 	public HostFileStatement(String hostFileLine) {
-		
+
 		super();
-		line = hostFileLine ;
-		String trimLine = line.trim() ;
-		isCommentLine = checkCommentLine(trimLine) ;
+		line = hostFileLine;
+		String trimLine = line.trim();
+		isCommentLine = checkCommentLine(trimLine);
 		if ((isCommentLine) || (trimLine.isEmpty())) {
-			ipAddressMap = null ;
+			ipAddressMap = null;
 		} else {
-			ipAddressMap = new IpAddressMap(trimLine) ;
+			ipAddressMap = new IpAddressMap(trimLine);
 		}
 	}
 
