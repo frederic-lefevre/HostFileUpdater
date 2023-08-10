@@ -29,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.fl.hostFileUpdater.HostFileStatement;
 import org.junit.jupiter.api.Test;
@@ -39,9 +38,7 @@ class HostFileTest {
 	@Test
 	void test() {
 		
-		Logger log = Logger.getLogger(HostFileTest.class.getName()) ;
-		
-		HostFile hf1 = new HostFile(log) ;
+		HostFile hf1 = new HostFile() ;
 		
 		assertEquals("", hf1.toString()) ;
 
@@ -52,7 +49,7 @@ class HostFileTest {
 				"192.168.113.134 ESWPURE04.ipfs.cloud.ibm.com\r\n" ,
 				"192.168.113.135 ESWPURE05.ipfs.cloud.ibm.com\r\n" ) ;
 	
-		HostFile hf2 = new HostFile(statements1, log) ;
+		HostFile hf2 = new HostFile(statements1) ;
 		
 		assertEquals("", hf2.toString()) ;
 		assertNull(hf2.getFilePath()) ;
@@ -65,7 +62,7 @@ class HostFileTest {
 				"192.168.113.134 ESWPURE04.ipfs.cloud.ibm.com\r\n" ,
 				"192.168.113.135 ESWPURE05.ipfs.cloud.ibm.com\r\n" ) ;
 		
-		HostFile hf3 = new HostFile(statements2, log) ;
+		HostFile hf3 = new HostFile(statements2) ;
 		
 		hf1.append(hf3) ;
 
@@ -76,8 +73,8 @@ class HostFileTest {
 		List<String> statements3 = Arrays.asList(				
 				"127.0.0.1	LAPTOP-4LB058J2\r\n" 
 				 ) ;
-		HostFile hf4 = new HostFile(statements3, log) ;
-		HostFile hf5 = new HostFile(log) ;
+		HostFile hf4 = new HostFile(statements3) ;
+		HostFile hf5 = new HostFile() ;
 		hf5.append(hf3).append(hf4) ;
 		assertTrue(hf2.includes(hf5)) ;
 		assertTrue(hf5.includes(hf4)) ;
@@ -95,7 +92,7 @@ class HostFileTest {
 		List<String> statements4 = Arrays.asList(				
 				"127.0.0.1	SomeThingElse\n" 
 				 ) ;
-		HostFile hf6 = new HostFile(statements4, log) ;
+		HostFile hf6 = new HostFile(statements4) ;
 
 		List<HostFile> hfList = new ArrayList<HostFile>() ;
 		hfList.add(hf3) ;

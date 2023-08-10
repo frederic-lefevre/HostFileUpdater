@@ -37,7 +37,7 @@ public class LocalAddressesHostFile extends HostFile {
 	private final static char 	TABCHAR 	 = '\t' ;
 
 	public LocalAddressesHostFile(String[] otherLocalHostNames, Logger l) {
-		super(l);
+		super();
 		
 		// Build the local host mappings
 		// Get the current IP addresses and machine name for this host

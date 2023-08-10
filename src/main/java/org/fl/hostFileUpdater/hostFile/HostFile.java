@@ -70,39 +70,34 @@ public class HostFile {
 
 	private final Path filePath ;
 	
-	private final Logger hLog ;
-	
 	private static String htmlFileBegin =  "<html><body>" ;
 	
 	// Create an empty HostFile
-	public HostFile(Logger l) {
-		filePath 	   		 = null ;
-		hLog 		   		 = l ;		
+	public HostFile() {
+		filePath 	   		 = null ;	
 		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
 	}
 	
 	// Create a HostFile from a path (the corresponding file is read and parsed)
-	public HostFile(Path pf, Logger l) {
+	public HostFile(Path pf) {
 		
 		filePath 	   		 = pf ;
-		hLog 		   		 = l ;		
 		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
 		
 		try {
 			List<String> fileContent = Files.readAllLines(filePath, Charset.defaultCharset()) ;
 			addHostFileLines(fileContent);
 		} catch (IOException e) {
-			hLog.log(Level.SEVERE, "IO Exception when reading file " + filePath, e);
+			log.log(Level.SEVERE, "IO Exception when reading file " + filePath, e);
 		} catch (Exception e) {
-			hLog.log(Level.SEVERE, "Exception when reading file " + filePath, e);
+			log.log(Level.SEVERE, "Exception when reading file " + filePath, e);
 		}		
 	}
 	
 	//  Create a HostFile from a list of String
-	public HostFile(List<String> fc, Logger l) {
+	public HostFile(List<String> fc) {
 		
 		filePath 	   		 = null ;
-		hLog 		   		 = l ;		
 		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
 		addHostFileLines(fc);	
 	}
@@ -129,7 +124,7 @@ public class HostFile {
 			try {
 				addOneLineToHostFile(line) ;
 			} catch (Exception e) {
-				hLog.log(Level.SEVERE, "Exception when reading line \"" + line + "\"", e);
+				log.log(Level.SEVERE, "Exception when reading line \"" + line + "\"", e);
 			}
 		}
 	}
