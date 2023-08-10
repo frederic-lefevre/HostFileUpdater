@@ -75,7 +75,7 @@ public class HostFileUpdater {
 		
 		hLog = l ;
 		String hostFileStyle = props.getProperty("hostFileUpdate.cssFilePath") ;
-		HostFile.setCssStyleDefinition(hostFileStyle, hLog);
+		HostFile.setCssStyleDefinition(hostFileStyle);
 		
 		// Get the target host file and the host file base
 		Path pComment  = props.getPathFromURI("hostFileUpdate.hostFileCommentHeader"  ) ;

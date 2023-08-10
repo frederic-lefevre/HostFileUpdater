@@ -36,12 +36,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.fl.hostFileUpdater.Control;
 import org.fl.hostFileUpdater.HostFileStatement;
 import org.fl.hostFileUpdater.IpAddressMap;
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 
 public class HostFile {
 
+	private static final Logger log = Control.getLogger();
+	
 	private final static String NEWLINE 	  	 = System.getProperty("line.separator");
 	private final static String ENDLINE_HTML  	 = "</span><br/>" ; 
 	private final static String SPAN_COMMENT  	 = "<span class=\"comment\">" ;
@@ -201,15 +204,15 @@ public class HostFile {
 	}
 	
 	// Set the css style part of HTML print
-	public static void setCssStyleDefinition(String cssStyleDefinitionFile, Logger l) {
+	public static void setCssStyleDefinition(String cssStyleDefinitionFile) {
 		String cssStyleDefinition ;
 		try {
 			cssStyleDefinition =  new String(Files.readAllBytes(Paths.get(URI.create(cssStyleDefinitionFile)))) ;
 		} catch (IOException e) {
-			l.log(Level.SEVERE, "IO Exception when reading css file " + cssStyleDefinitionFile, e);
+			log.log(Level.SEVERE, "IO Exception when reading css file " + cssStyleDefinitionFile, e);
 			cssStyleDefinition = "" ;
 		} catch (Exception e) {
-			l.log(Level.SEVERE, "Exception when reading css file " + cssStyleDefinitionFile, e);
+			log.log(Level.SEVERE, "Exception when reading css file " + cssStyleDefinitionFile, e);
 			cssStyleDefinition = "" ;
 		}	
 		htmlFileBegin = "<html><head><style>" + cssStyleDefinition + "</style></head><body>" ;
