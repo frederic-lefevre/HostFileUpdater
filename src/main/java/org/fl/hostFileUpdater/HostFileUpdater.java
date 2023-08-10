@@ -46,32 +46,33 @@ public class HostFileUpdater {
 	private final static String NEWLINE_HTML = "<br/>" ; 
 	
 	// system host file to update
-	private final HostFile targetHostFile ;
-	
+	private final HostFile targetHostFile;
+
 	// base host file that must be present
-	private final HostFile baseHostFile ;
-	
+	private final HostFile baseHostFile;
+
 	// comment at the begining of the host file
-	private final HostFile hostFileCommentHeader ;
-	
+	private final HostFile hostFileCommentHeader;
+
 	// result host file
-	private HostFile resultHostFile ;
-	
+	private HostFile resultHostFile;
+
 	// list of host file to choose from
-	private final List<HostFile> hostFileList ;
-	
+	private final List<HostFile> hostFileList;
+
 	// list of chosen host file
-	private List<HostFile> chosenHostFileList ;
-	
+	private List<HostFile> chosenHostFileList;
+
 	// File path where to save the old host file
-	private final Path backupHostFile ;
-	
-	// list of target host file file that are not present in the base host file or in any of the host file to choose
+	private final Path backupHostFile;
+
+	// list of target host file file that are not present in the base host file or
+	// in any of the host file to choose
 	// So if the target host file is updated, they will be lost
-	private final List<HostFileStatement> hostFileStatementsToBeLost ;
-	
-	private final HostFile 	  localHostMappings ;
-	
+	private final List<HostFileStatement> hostFileStatementsToBeLost;
+
+	private final HostFile localHostMappings;
+
 	public HostFileUpdater(AdvancedProperties props) {
 
 		String hostFileStyle = props.getProperty("hostFileUpdate.cssFilePath");
@@ -96,7 +97,7 @@ public class HostFileUpdater {
 
 		// Build the local host mappings
 		String[] additionnalHostNames = props.getArrayOfString("hostFileUpdate.localHostNames", ";");
-		localHostMappings = new LocalAddressesHostFile(additionnalHostNames, log);
+		localHostMappings = new LocalAddressesHostFile(additionnalHostNames);
 
 		// Build the totalHostFile to find the statements that will be lost if the host
 		// file is saved
