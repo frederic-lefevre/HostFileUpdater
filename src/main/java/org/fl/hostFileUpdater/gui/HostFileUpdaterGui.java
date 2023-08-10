@@ -65,7 +65,7 @@ public class HostFileUpdaterGui   extends JFrame {
 		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(context);
 
 		ParseHostFilePane parsePanel = new ParseHostFilePane(hfu);
-		ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu, Control.getLogger());
+		ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu);
 
 		hfTabs.add(parsePanel, "Analyse host file", 0);
 		hfTabs.add(composePanel, "Compose host file", 1);
