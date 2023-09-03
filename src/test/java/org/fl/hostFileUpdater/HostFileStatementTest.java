@@ -24,7 +24,7 @@ SOFTWARE.
 
 package org.fl.hostFileUpdater;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 import org.junit.jupiter.api.Test;
@@ -44,23 +44,23 @@ class HostFileStatementTest {
 		String l3 = "# this is a comment";
 
 		HostFileStatement hfs1 = new HostFileStatement(l1);
-		assertFalse(hfs1.isCommentLine());
+		assertThat(hfs1.isCommentLine()).isFalse();
 
 		HostFileStatement hfs2 = new HostFileStatement(l2);
-		assertFalse(hfs2.containSameHostNameWithDiffentAddress(hfs1));
+		assertThat(hfs2.containSameHostNameWithDiffentAddress(hfs1)).isFalse();
 
 		HostFileStatement hfs3 = new HostFileStatement(l3);
-		assertTrue(hfs3.isCommentLine());
+		assertThat(hfs3.isCommentLine()).isTrue();
 
 		String ip2 = "192.168.65.103";
 		String l4 = ip2 + " " + h1 + "\t" + h2;
 		HostFileStatement hfs4 = new HostFileStatement(l4);
-		assertTrue(hfs1.containSameHostNameWithDiffentAddress(hfs4));
+		assertThat(hfs1.containSameHostNameWithDiffentAddress(hfs4)).isTrue();
 
-		assertEquals(Reachable.UNKNOWN, hfs4.getReachable());
+		assertThat(hfs4.getReachable()).isEqualTo(Reachable.UNKNOWN);
 
 		hfs4.testReachable();
-		assertEquals(Reachable.FALSE, hfs4.getReachable());
+		assertThat(hfs4.getReachable()).isEqualTo(Reachable.FALSE);
 	}
 
 }

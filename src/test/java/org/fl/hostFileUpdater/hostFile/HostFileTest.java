@@ -24,7 +24,7 @@ SOFTWARE.
 
 package org.fl.hostFileUpdater.hostFile;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ class HostFileTest {
 
 		HostFile hf1 = new HostFile();
 
-		assertEquals("", hf1.toString());
+		assertThat(hf1).hasToString("");
 
 		List<String> statements1 = Arrays.asList("127.0.0.1	localhost\r\n", "127.0.0.1	LAPTOP-4LB058J2\r\n",
 				"# DMZ pureflex access\r\n", "192.168.113.134 ESWPURE04.ipfs.cloud.ibm.com\r\n",
@@ -48,11 +48,12 @@ class HostFileTest {
 
 		HostFile hf2 = new HostFile(statements1);
 
-		assertEquals("", hf2.toString());
-		assertNull(hf2.getFilePath());
+		assertThat(hf2).hasToString("");
 
-		assertFalse(hf1.includes(hf2));
-		assertTrue(hf2.includes(hf1));
+		assertThat(hf2.getFilePath()).isNull();
+
+		assertThat(hf1.includes(hf2)).isFalse();
+		assertThat(hf2.includes(hf1)).isTrue();
 
 		List<String> statements2 = Arrays.asList("127.0.0.1	localhost\r\n",
 				"192.168.113.134 ESWPURE04.ipfs.cloud.ibm.com\r\n", "192.168.113.135 ESWPURE05.ipfs.cloud.ibm.com\r\n");
@@ -61,26 +62,26 @@ class HostFileTest {
 
 		hf1.append(hf3);
 
-		assertTrue(hf2.includes(hf3));
-		assertTrue(hf2.includes(hf1));
-		assertFalse(hf1.includes(hf2));
+		assertThat(hf2.includes(hf3)).isTrue();
+		assertThat(hf2.includes(hf1)).isTrue();
+		assertThat(hf1.includes(hf2)).isFalse();
 
 		List<String> statements3 = Arrays.asList("127.0.0.1	LAPTOP-4LB058J2\r\n");
 		HostFile hf4 = new HostFile(statements3);
 		HostFile hf5 = new HostFile();
 		hf5.append(hf3).append(hf4);
-		assertTrue(hf2.includes(hf5));
-		assertTrue(hf5.includes(hf4));
+		assertThat(hf2.includes(hf5)).isTrue();
+		assertThat(hf5.includes(hf4)).isTrue();
 
 		List<HostFileStatement> emptyList = hf5.getNotIncludedStatements(hf4);
-		assertEquals(0, emptyList.size());
+		assertThat(emptyList).isEmpty();
 
 		List<HostFileStatement> stList = hf3.getNotIncludedStatements(hf2);
-		assertEquals(1, stList.size());
+		assertThat(stList).hasSize(1);
 
 		HostFileStatement hfs1 = stList.get(0);
 		HostFileStatement hfs2 = new HostFileStatement("127.0.0.1	LAPTOP-4LB058J2\r\n");
-		assertTrue(hfs1.getIpAddressMap().isTheSameAs(hfs2.getIpAddressMap()));
+		assertThat(hfs1.getIpAddressMap().isTheSameAs(hfs2.getIpAddressMap())).isTrue();
 
 		List<String> statements4 = Arrays.asList("127.0.0.1	SomeThingElse\n");
 		HostFile hf6 = new HostFile(statements4);
@@ -92,10 +93,11 @@ class HostFileTest {
 
 		List<HostFile> includuedHf = hf2.getIncludedHostFiles(hfList);
 
-		assertEquals(2, includuedHf.size());
-		assertFalse(includuedHf.contains(hf6));
-		assertTrue(includuedHf.contains(hf3));
-		assertTrue(includuedHf.contains(hf4));
+		assertThat(includuedHf).hasSize(2);
+		assertThat(includuedHf.contains(hf6)).isFalse();
+
+		assertThat(includuedHf.contains(hf3)).isTrue();
+		assertThat(includuedHf.contains(hf4)).isTrue();
 	}
 
 }

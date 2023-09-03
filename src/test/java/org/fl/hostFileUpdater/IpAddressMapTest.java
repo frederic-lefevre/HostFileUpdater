@@ -24,7 +24,7 @@ SOFTWARE.
 
 package org.fl.hostFileUpdater;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
 
@@ -43,62 +43,60 @@ class IpAddressMapTest {
 		String l2 = ip1 + "\t" + h2 + " \t" + h1;
 
 		IpAddressMap iam = new IpAddressMap(l1);
-		assertEquals(ip1, iam.getIpAddress());
+		assertThat(iam.getIpAddress()).isEqualTo(ip1);
 
 		IpAddressMap iam2 = new IpAddressMap(l2);
-		assertTrue(iam.isTheSameAs(iam2));
+		assertThat(iam.isTheSameAs(iam2)).isTrue();
 
 		Set<String> hostNames = iam.getHostNames();
-		assertTrue(hostNames.contains(h1));
-		assertTrue(hostNames.contains(h2));
+		assertThat(hostNames).contains(h1, h2);
 
 		String h3 = "ioc51app";
-		assertFalse(hostNames.contains(h3));
+		assertThat(hostNames).doesNotContain(h3);
 		iam.addHostName(h3);
-		assertTrue(hostNames.contains(h3));
+		assertThat(hostNames).contains(h3);
 
-		assertFalse(iam.containSameHostNameWithDiffentAddress(iam2));
+		assertThat(iam.containSameHostNameWithDiffentAddress(iam2)).isFalse();
 
 		String ip2 = "192.168.65.103";
 		String l3 = ip2 + " " + h1;
 		IpAddressMap iam3 = new IpAddressMap(l3);
-		assertTrue(iam.containSameHostNameWithDiffentAddress(iam3));
-		assertFalse(iam.hasSameHostNamesWithDiffentAddress(iam3));
+		assertThat(iam.containSameHostNameWithDiffentAddress(iam3)).isTrue();
+		assertThat(iam.hasSameHostNamesWithDiffentAddress(iam3)).isFalse();
 		iam3.addHostName(h2).addHostName(h3);
-		assertTrue(iam.hasSameHostNamesWithDiffentAddress(iam3));
+		assertThat(iam.hasSameHostNamesWithDiffentAddress(iam3)).isTrue();
 	}
 
 	@Test
 	void testWrongIpam() {
 
 		IpAddressMap iam = new IpAddressMap("  bidon \t ");
-		assertNull(iam.getIpAddress());
+		assertThat(iam.getIpAddress()).isNull();
 	}
 
 	@Test
 	void testWrongIpam2() {
 
 		IpAddressMap iam = new IpAddressMap("\t\t \t  \t  bidon \t ");
-		assertNull(iam.getIpAddress());
+		assertThat(iam.getIpAddress()).isNull();
 
 		IpAddressMap iam2 = new IpAddressMap("  bidon \t ");
-
-		assertFalse(iam.containSameHostNameWithDiffentAddress(iam2));
-		assertFalse(iam.hasSameHostNamesWithDiffentAddress(iam2));
-		assertTrue(iam.isTheSameAs(iam2));
+		assertThat(iam.containSameHostNameWithDiffentAddress(iam2)).isFalse();
+		assertThat(iam.hasSameHostNamesWithDiffentAddress(iam2)).isFalse();
+		assertThat(iam.isTheSameAs(iam2)).isTrue();
 	}
 
 	@Test
 	void testWrongIpam3() {
 
 		IpAddressMap iam = new IpAddressMap("\t\t \t  \t  bidon \t ");
-		assertNull(iam.getIpAddress());
+		assertThat(iam.getIpAddress()).isNull();
 
 		IpAddressMap iam2 = new IpAddressMap("9.100.8.9 myHost");
 
-		assertFalse(iam.containSameHostNameWithDiffentAddress(iam2));
-		assertFalse(iam.hasSameHostNamesWithDiffentAddress(iam2));
-		assertFalse(iam.isTheSameAs(iam2));
+		assertThat(iam.containSameHostNameWithDiffentAddress(iam2)).isFalse();
+		assertThat(iam.hasSameHostNamesWithDiffentAddress(iam2)).isFalse();
+		assertThat(iam.isTheSameAs(iam2)).isFalse();
 	}
 
 	@Test
@@ -107,8 +105,8 @@ class IpAddressMapTest {
 		IpAddressMap iam = new IpAddressMap("9.100.8.9 myHost");
 		IpAddressMap iam2 = new IpAddressMap("\t\t \t  \t  bidon \t ");
 
-		assertFalse(iam.containSameHostNameWithDiffentAddress(iam2));
-		assertFalse(iam.hasSameHostNamesWithDiffentAddress(iam2));
-		assertFalse(iam.isTheSameAs(iam2));
+		assertThat(iam.containSameHostNameWithDiffentAddress(iam2)).isFalse();
+		assertThat(iam.hasSameHostNamesWithDiffentAddress(iam2)).isFalse();
+		assertThat(iam.isTheSameAs(iam2)).isFalse();
 	}
 }
