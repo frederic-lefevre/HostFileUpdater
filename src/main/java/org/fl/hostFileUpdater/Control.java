@@ -22,37 +22,44 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package org.fl.hostFileUpdater.gui;
+package org.fl.hostFileUpdater;
 
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import java.util.logging.Logger;
 
-import org.fl.hostFileUpdater.HostFileUpdater;
+import org.fl.util.RunningContext;
 
-public class ParseHostFilePane extends JPanel {
+public class Control {
 
-	private static final long serialVersionUID = 1L;
-
-	public ParseHostFilePane(HostFileUpdater hfu) {
-		super();
-		
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)) ;
-		
-		JTextArea parseInfo = new JTextArea(30, 80);
-		parseInfo.append(hfu.parseHostFile());
-		
-		JLabel hfLabel = new JLabel("Present Host File content", JLabel.CENTER);
-		JTextArea presentHostFile = new JTextArea(30, 80);
-		presentHostFile.append(hfu.getPresentHostFile());
-		JScrollPane parseScrollPane = new JScrollPane(presentHostFile); 
-		
-		add(parseInfo);
-		add(hfLabel);
-		add(parseScrollPane) ;
+	private static final String DEFAULT_PROP_FILE = "hostFileUpdater.properties";
+	
+	private static RunningContext runningContext;
+	
+	private static Logger logger;
+	
+	private static boolean initialized = false;
+	
+	private Control() {
 	}
 
+	public static void init() {
+		
+		runningContext = new RunningContext("HostFileUpdater", null, DEFAULT_PROP_FILE);
+		logger = runningContext.getpLog() ;
+		
+		initialized = true;
+	}
 	
+	public static RunningContext getRunningContext() {
+		if (!initialized) {
+			init();
+		}
+		return runningContext;
+	}
+	
+	public static Logger getLogger() {
+		if (!initialized) {
+			init();
+		}
+		return logger;
+	}
 }

@@ -1,3 +1,27 @@
+/*
+ * MIT License
+
+Copyright (c) 2017, 2023 Frederic Lefevre
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 package org.fl.hostFileUpdater.hostFile;
 
 import java.io.IOException;
@@ -12,12 +36,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.fl.hostFileUpdater.Control;
 import org.fl.hostFileUpdater.HostFileStatement;
 import org.fl.hostFileUpdater.IpAddressMap;
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 
 public class HostFile {
 
+	private static final Logger log = Control.getLogger();
+	
 	private final static String NEWLINE 	  	 = System.getProperty("line.separator");
 	private final static String ENDLINE_HTML  	 = "</span><br/>" ; 
 	private final static String SPAN_COMMENT  	 = "<span class=\"comment\">" ;
@@ -43,39 +70,34 @@ public class HostFile {
 
 	private final Path filePath ;
 	
-	private final Logger hLog ;
-	
 	private static String htmlFileBegin =  "<html><body>" ;
 	
 	// Create an empty HostFile
-	public HostFile(Logger l) {
-		filePath 	   		 = null ;
-		hLog 		   		 = l ;		
+	public HostFile() {
+		filePath 	   		 = null ;	
 		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
 	}
 	
 	// Create a HostFile from a path (the corresponding file is read and parsed)
-	public HostFile(Path pf, Logger l) {
+	public HostFile(Path pf) {
 		
 		filePath 	   		 = pf ;
-		hLog 		   		 = l ;		
 		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
 		
 		try {
 			List<String> fileContent = Files.readAllLines(filePath, Charset.defaultCharset()) ;
 			addHostFileLines(fileContent);
 		} catch (IOException e) {
-			hLog.log(Level.SEVERE, "IO Exception when reading file " + filePath, e);
+			log.log(Level.SEVERE, "IO Exception when reading file " + filePath, e);
 		} catch (Exception e) {
-			hLog.log(Level.SEVERE, "Exception when reading file " + filePath, e);
+			log.log(Level.SEVERE, "Exception when reading file " + filePath, e);
 		}		
 	}
 	
 	//  Create a HostFile from a list of String
-	public HostFile(List<String> fc, Logger l) {
+	public HostFile(List<String> fc) {
 		
 		filePath 	   		 = null ;
-		hLog 		   		 = l ;		
 		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
 		addHostFileLines(fc);	
 	}
@@ -93,7 +115,7 @@ public class HostFile {
 	
 	// Add one line to the HostFile
 	private void addOneLineToHostFile(String line) {	
-		addOneHostFileStatement(new StatementOfThisFile(false, new HostFileStatement(line, hLog))) ;		
+		addOneHostFileStatement(new StatementOfThisFile(false, new HostFileStatement(line))) ;		
 	}
 	
 	// Add a list of lines the HostFile
@@ -102,7 +124,7 @@ public class HostFile {
 			try {
 				addOneLineToHostFile(line) ;
 			} catch (Exception e) {
-				hLog.log(Level.SEVERE, "Exception when reading line \"" + line + "\"", e);
+				log.log(Level.SEVERE, "Exception when reading line \"" + line + "\"", e);
 			}
 		}
 	}
@@ -177,15 +199,15 @@ public class HostFile {
 	}
 	
 	// Set the css style part of HTML print
-	public static void setCssStyleDefinition(String cssStyleDefinitionFile, Logger l) {
+	public static void setCssStyleDefinition(String cssStyleDefinitionFile) {
 		String cssStyleDefinition ;
 		try {
 			cssStyleDefinition =  new String(Files.readAllBytes(Paths.get(URI.create(cssStyleDefinitionFile)))) ;
 		} catch (IOException e) {
-			l.log(Level.SEVERE, "IO Exception when reading css file " + cssStyleDefinitionFile, e);
+			log.log(Level.SEVERE, "IO Exception when reading css file " + cssStyleDefinitionFile, e);
 			cssStyleDefinition = "" ;
 		} catch (Exception e) {
-			l.log(Level.SEVERE, "Exception when reading css file " + cssStyleDefinitionFile, e);
+			log.log(Level.SEVERE, "Exception when reading css file " + cssStyleDefinitionFile, e);
 			cssStyleDefinition = "" ;
 		}	
 		htmlFileBegin = "<html><head><style>" + cssStyleDefinition + "</style></head><body>" ;
