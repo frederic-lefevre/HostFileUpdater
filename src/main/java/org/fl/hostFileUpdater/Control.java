@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2024 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ public class Control {
 	
 	private static RunningContext runningContext;
 	
-	private static Logger logger;
+	private static final Logger logger = Logger.getLogger(Control.class.getName());
 	
 	private static boolean initialized = false;
 	
@@ -44,7 +44,6 @@ public class Control {
 	public static void init() {
 		
 		runningContext = new RunningContext("HostFileUpdater", null, DEFAULT_PROP_FILE);
-		logger = runningContext.getpLog() ;
 		
 		initialized = true;
 	}
