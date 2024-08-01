@@ -43,7 +43,7 @@ public class Control {
 
 	public static void init() {
 		
-		runningContext = new RunningContext("HostFileUpdater", null, DEFAULT_PROP_FILE);
+		runningContext = new RunningContext("org.fl.hostFileUpdater", null, DEFAULT_PROP_FILE);
 		
 		initialized = true;
 	}
