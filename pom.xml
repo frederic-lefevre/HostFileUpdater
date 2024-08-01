@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>HostFileUpdater</groupId>
 	<artifactId>HostFileUpdater</artifactId>
-	<version>1.13.0</version>
+	<version>1.13.1</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.fl.FlUtils</groupId>
 			<artifactId>FlUtils</artifactId>
-			<version>5.1.0</version>
+			<version>5.1.1</version>
 		</dependency>
 				<dependency>
 			<groupId>org.junit.jupiter</groupId>
