@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,26 +35,25 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
-import org.fl.hostFileUpdater.Control;
 import org.fl.hostFileUpdater.HostFileUpdater;
 import org.fl.hostFileUpdater.hostFile.HostFile;
 
 public class HostFileComposer extends SwingWorker<String,String> {
 
-	private static final Logger log = Control.getLogger();
+	private static final Logger log = Logger.getLogger(HostFileComposer.class.getName());
 	
-	private final HostFileUpdater hostFileUpdater ;
-	private final JEditorPane 	  hostFilePane ;
-	private final JButton		  writeHostFileButton ;
-	private final JTextArea		  infoArea ;
-	private final JList<HostFile> hostFileGuiList ;
-	
+	private final HostFileUpdater hostFileUpdater;
+	private final JEditorPane hostFilePane;
+	private final JButton writeHostFileButton;
+	private final JTextArea infoArea;
+	private final JList<HostFile> hostFileGuiList;
+
 	public HostFileComposer(HostFileUpdater hfu, JEditorPane hfp, JButton jb, JTextArea ia, JList<HostFile> hfgl) {
-		hostFileUpdater 	= hfu ;
-		hostFilePane 		= hfp ;
-		writeHostFileButton = jb ;
-		infoArea			= ia ;
-		hostFileGuiList		= hfgl ;
+		hostFileUpdater = hfu;
+		hostFilePane = hfp;
+		writeHostFileButton = jb;
+		infoArea = ia;
+		hostFileGuiList = hfgl;
 	}
 	
 	@Override
@@ -63,19 +62,19 @@ public class HostFileComposer extends SwingWorker<String,String> {
 		return hostFileUpdater.buildResultHostFile();
 	}
 	
-	@Override 
+	@Override
 	public void done() {
 		try {
 			hostFilePane.setText(get());
-			writeHostFileButton.setEnabled(true) ;
+			writeHostFileButton.setEnabled(true);
 			hostFileGuiList.setEnabled(true);
-    		
-			writeHostFileButton.setBackground(Color.ORANGE) ;
+
+			writeHostFileButton.setBackground(Color.ORANGE);
 			writeHostFileButton.setText("Write result to Host File " + hostFileUpdater.getTargetHostFile().getFilePath());
-			infoArea.append("\nResult host file display updated") ;
-			
+			infoArea.append("\nResult host file display updated");
+
 		} catch (InterruptedException | ExecutionException e) {
-			log.log(Level.SEVERE, "Exception building result file", e) ;
+			log.log(Level.SEVERE, "Exception building result file", e);
 		}
 	}
 }

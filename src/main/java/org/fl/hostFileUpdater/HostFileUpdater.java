@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,10 +40,10 @@ import org.fl.util.FileSet;
 
 public class HostFileUpdater {
 
-	private static final Logger log = Control.getLogger();
+	private static final Logger log = Logger.getLogger(HostFileUpdater.class.getName());
 	
-	private final static String NEWLINE 	 = System.getProperty("line.separator");
-	private final static String NEWLINE_HTML = "<br/>" ; 
+	private static final String NEWLINE = System.getProperty("line.separator");
+	private static final String NEWLINE_HTML = "<br/>"; 
 	
 	// system host file to update
 	private final HostFile targetHostFile;
@@ -233,14 +233,14 @@ public class HostFileUpdater {
 	// These are the statements that appears in the target host file but are not present in the base host file or any of the host file part to choose from
 	public String printHostFileStatementsToBeLost() {
 		
-		StringBuilder result = new StringBuilder() ;
-		result.append("Host file statements that are present in the host file and will be lost, whatever your choices: ").append(NEWLINE).append(NEWLINE) ;
+		StringBuilder result = new StringBuilder();
+		result.append("Host file statements that are present in the host file and will be lost, whatever your choices: ").append(NEWLINE).append(NEWLINE);
 		
 		if (hostFileStatementsToBeLost.isEmpty()) {
-			result.append("None") ;
+			result.append("None");
 		} else {
 			for (HostFileStatement hfs : hostFileStatementsToBeLost) {
-				result.append(hfs.getLine()).append(NEWLINE) ;
+				result.append(hfs.getLine()).append(NEWLINE);
 			}
 		}
 		return result.toString();
@@ -248,35 +248,35 @@ public class HostFileUpdater {
 	
 	public String parseHostFile() {
 
-		StringBuilder buff = new StringBuilder() ;
-		
-		buff.append("The present host file ") ;
+		StringBuilder buff = new StringBuilder();
+
+		buff.append("The present host file ");
 		if (targetHostFile.includes(localHostMappings)) {
-			buff.append("includes ") ;
+			buff.append("includes ");
 		} else {
-			buff.append("does not includes ") ;
+			buff.append("does not includes ");
 		}
-		buff.append("current local addresses mappings\n") ;
-		
-		buff.append("The present host file ") ;
+		buff.append("current local addresses mappings\n");
+
+		buff.append("The present host file ");
 		if (targetHostFile.includes(baseHostFile)) {
-			buff.append("includes ") ;
+			buff.append("includes ");
 		} else {
-			buff.append("do not includes ") ;
+			buff.append("do not includes ");
 		}
-		buff.append("base mappings\n\nParticular mappings included:\n") ;
-		List<HostFile> includedHostFile = targetHostFile.getIncludedHostFiles(hostFileList) ;		 
+		buff.append("base mappings\n\nParticular mappings included:\n");
+		List<HostFile> includedHostFile = targetHostFile.getIncludedHostFiles(hostFileList);
 		for (HostFile ihf : includedHostFile) {
-			buff.append(ihf.toString()).append("\n") ;
+			buff.append(ihf.toString()).append("\n");
 		}
-		
-		buff.append("\n").append(printHostFileStatementsToBeLost()) ;
-		
-		return buff.toString() ;		
+
+		buff.append("\n").append(printHostFileStatementsToBeLost());
+
+		return buff.toString();
 	}
-	
+
 	public String getPresentHostFile() {
-		return targetHostFile.getContent().toString() ;
+		return targetHostFile.getContent().toString();
 	}
 
 }

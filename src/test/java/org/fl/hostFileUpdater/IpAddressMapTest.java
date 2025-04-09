@@ -27,7 +27,11 @@ package org.fl.hostFileUpdater;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.fl.util.FilterCounter;
+import org.fl.util.FilterCounter.LogRecordCounter;
 import org.junit.jupiter.api.Test;
 
 class IpAddressMapTest {
@@ -70,25 +74,39 @@ class IpAddressMapTest {
 	@Test
 	void testWrongIpam() {
 
+		LogRecordCounter logFilterCounter = FilterCounter.getLogRecordCounter(Logger.getLogger(IpAddressMap.class.getName()));
 		IpAddressMap iam = new IpAddressMap("  bidon \t ");
 		assertThat(iam.getIpAddress()).isNull();
+		
+		assertThat(logFilterCounter.getLogRecordCount()).isEqualTo(1);
+		assertThat(logFilterCounter.getLogRecordCount(Level.SEVERE)).isEqualTo(1);
 	}
 
 	@Test
 	void testWrongIpam2() {
 
+		LogRecordCounter logFilterCounter = FilterCounter.getLogRecordCounter(Logger.getLogger(IpAddressMap.class.getName()));
+		
 		IpAddressMap iam = new IpAddressMap("\t\t \t  \t  bidon \t ");
 		assertThat(iam.getIpAddress()).isNull();
 
+		assertThat(logFilterCounter.getLogRecordCount()).isEqualTo(1);
+		assertThat(logFilterCounter.getLogRecordCount(Level.SEVERE)).isEqualTo(1);
+		
 		IpAddressMap iam2 = new IpAddressMap("  bidon \t ");
 		assertThat(iam.containSameHostNameWithDiffentAddress(iam2)).isFalse();
 		assertThat(iam.hasSameHostNamesWithDiffentAddress(iam2)).isFalse();
 		assertThat(iam.isTheSameAs(iam2)).isTrue();
+		
+		assertThat(logFilterCounter.getLogRecordCount()).isEqualTo(2);
+		assertThat(logFilterCounter.getLogRecordCount(Level.SEVERE)).isEqualTo(2);
 	}
 
 	@Test
 	void testWrongIpam3() {
 
+		LogRecordCounter logFilterCounter = FilterCounter.getLogRecordCounter(Logger.getLogger(IpAddressMap.class.getName()));
+		
 		IpAddressMap iam = new IpAddressMap("\t\t \t  \t  bidon \t ");
 		assertThat(iam.getIpAddress()).isNull();
 
@@ -97,16 +115,24 @@ class IpAddressMapTest {
 		assertThat(iam.containSameHostNameWithDiffentAddress(iam2)).isFalse();
 		assertThat(iam.hasSameHostNamesWithDiffentAddress(iam2)).isFalse();
 		assertThat(iam.isTheSameAs(iam2)).isFalse();
+		
+		assertThat(logFilterCounter.getLogRecordCount()).isEqualTo(1);
+		assertThat(logFilterCounter.getLogRecordCount(Level.SEVERE)).isEqualTo(1);
 	}
 
 	@Test
 	void testWrongIpam4() {
 
+		LogRecordCounter logFilterCounter = FilterCounter.getLogRecordCounter(Logger.getLogger(IpAddressMap.class.getName()));
+		
 		IpAddressMap iam = new IpAddressMap("9.100.8.9 myHost");
 		IpAddressMap iam2 = new IpAddressMap("\t\t \t  \t  bidon \t ");
 
 		assertThat(iam.containSameHostNameWithDiffentAddress(iam2)).isFalse();
 		assertThat(iam.hasSameHostNamesWithDiffentAddress(iam2)).isFalse();
 		assertThat(iam.isTheSameAs(iam2)).isFalse();
+		
+		assertThat(logFilterCounter.getLogRecordCount()).isEqualTo(1);
+		assertThat(logFilterCounter.getLogRecordCount(Level.SEVERE)).isEqualTo(1);
 	}
 }
