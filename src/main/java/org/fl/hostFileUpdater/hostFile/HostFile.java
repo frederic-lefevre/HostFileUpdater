@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,232 +36,237 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.fl.hostFileUpdater.Control;
 import org.fl.hostFileUpdater.HostFileStatement;
 import org.fl.hostFileUpdater.IpAddressMap;
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
 
 public class HostFile {
 
-	private static final Logger log = Control.getLogger();
+	private static final Logger log = Logger.getLogger(HostFile.class.getName());
 	
-	private final static String NEWLINE 	  	 = System.getProperty("line.separator");
-	private final static String ENDLINE_HTML  	 = "</span><br/>" ; 
-	private final static String SPAN_COMMENT  	 = "<span class=\"comment\">" ;
-	private final static String SPAN_CONFLICT 	 = "<span class=\"conflict\">" ;
-	private final static String SPAN_UNREACHABLE = "<span class=\"broken\">" ;
-	private final static String SPAN_NORMAL   	 = "<span class=\"normal\">" ;
+	private static final String NEWLINE = System.getProperty("line.separator");
+	private static final String ENDLINE_HTML = "</span><br/>";
+	private static final String SPAN_COMMENT = "<span class=\"comment\">";
+	private static final String SPAN_CONFLICT = "<span class=\"conflict\">";
+	private static final String SPAN_UNREACHABLE = "<span class=\"broken\">";
+	private static final String SPAN_NORMAL = "<span class=\"normal\">";
 	
-	private class StatementOfThisFile {	
-		
-		public boolean 			 inConflict ;
-		public HostFileStatement hostFileStatement ;
+	private class StatementOfThisFile {
+
+		public boolean inConflict;
+		public HostFileStatement hostFileStatement;
+
 		public StatementOfThisFile(boolean inConflict, HostFileStatement hostFileStatement) {
 			super();
-			this.inConflict		   = inConflict;
+			this.inConflict = inConflict;
 			this.hostFileStatement = hostFileStatement;
 		}
+
 		public boolean inConflictWith(StatementOfThisFile anotherStatement) {
-			return (this.hostFileStatement.containSameHostNameWithDiffentAddress(anotherStatement.hostFileStatement)) ;
+			return (this.hostFileStatement.containSameHostNameWithDiffentAddress(anotherStatement.hostFileStatement));
 		}
 	}
 	
-	private List<StatementOfThisFile> StatementsOfThisFile ;
+	private List<StatementOfThisFile> StatementsOfThisFile;
 
-	private final Path filePath ;
-	
-	private static String htmlFileBegin =  "<html><body>" ;
-	
+	private final Path filePath;
+
+	private static String htmlFileBegin = "<html><body>";
+
 	// Create an empty HostFile
 	public HostFile() {
-		filePath 	   		 = null ;	
-		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
+		filePath = null;
+		StatementsOfThisFile = new ArrayList<StatementOfThisFile>();
 	}
-	
+
 	// Create a HostFile from a path (the corresponding file is read and parsed)
 	public HostFile(Path pf) {
-		
-		filePath 	   		 = pf ;
-		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
-		
+
+		filePath = pf;
+		StatementsOfThisFile = new ArrayList<StatementOfThisFile>();
+
 		try {
-			List<String> fileContent = Files.readAllLines(filePath, Charset.defaultCharset()) ;
+			List<String> fileContent = Files.readAllLines(filePath, Charset.defaultCharset());
 			addHostFileLines(fileContent);
 		} catch (IOException e) {
 			log.log(Level.SEVERE, "IO Exception when reading file " + filePath, e);
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Exception when reading file " + filePath, e);
-		}		
+		}
 	}
-	
-	//  Create a HostFile from a list of String
+
+	// Create a HostFile from a list of String
 	public HostFile(List<String> fc) {
-		
-		filePath 	   		 = null ;
-		StatementsOfThisFile = new ArrayList<StatementOfThisFile>() ;
-		addHostFileLines(fc);	
+
+		filePath = null;
+		StatementsOfThisFile = new ArrayList<StatementOfThisFile>();
+		addHostFileLines(fc);
 	}
 	
 	// Add a HostFileStatement to the HostFile
 	private void addOneHostFileStatement(StatementOfThisFile newStatementOfThisFile) {
 		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
 			if (fileStatement.inConflictWith(newStatementOfThisFile)) {
-				fileStatement.inConflict 		  = true ;
-				newStatementOfThisFile.inConflict = true ;
+				fileStatement.inConflict = true;
+				newStatementOfThisFile.inConflict = true;
 			}
 		}
-		StatementsOfThisFile.add(newStatementOfThisFile) ;
+		StatementsOfThisFile.add(newStatementOfThisFile);
 	}
 	
 	// Add one line to the HostFile
-	private void addOneLineToHostFile(String line) {	
-		addOneHostFileStatement(new StatementOfThisFile(false, new HostFileStatement(line))) ;		
+	private void addOneLineToHostFile(String line) {
+		addOneHostFileStatement(new StatementOfThisFile(false, new HostFileStatement(line)));
 	}
-	
+
 	// Add a list of lines the HostFile
 	protected void addHostFileLines(List<String> fileContent) {
 		for (String line : fileContent) {
 			try {
-				addOneLineToHostFile(line) ;
+				addOneLineToHostFile(line);
 			} catch (Exception e) {
 				log.log(Level.SEVERE, "Exception when reading line \"" + line + "\"", e);
 			}
 		}
 	}
-	
+
 	// Add a list of HostFileStatements to the HostFile
 	private void addHostFileStatements(List<StatementOfThisFile> fileStatements) {
 		for (StatementOfThisFile fileStatement : fileStatements) {
-			addOneHostFileStatement(new StatementOfThisFile(fileStatement.inConflict, fileStatement.hostFileStatement)) ;
+			addOneHostFileStatement(new StatementOfThisFile(fileStatement.inConflict, fileStatement.hostFileStatement));
 		}
 	}
 	
-	// File path to string : must have a toString method to be able to be displayed in a JList
+	// File path to string : must have a toString method to be able to be displayed
+	// in a JList
 	@Override
 	public String toString() {
 		if (filePath != null) {
-			return filePath.getFileName().toString() ;
+			return filePath.getFileName().toString();
 		} else {
-			return "" ;
+			return "";
 		}
 	}
-	
+
 	// Get the content of the HostFile as a StringBuffer
 	public StringBuilder getContent() {
-		
-		StringBuilder res = new StringBuilder() ;
+
+		StringBuilder res = new StringBuilder();
 		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
-			res.append(fileStatement.hostFileStatement.getLine()).append(NEWLINE) ;
+			res.append(fileStatement.hostFileStatement.getLine()).append(NEWLINE);
 		}
-		return res ;
+		return res;
 	}
-	
+
 	public Path getFilePath() {
 		return filePath;
 	}
 
-	// Get the content of the HostFile as a StringBuffer, in HTML format, with or without highlighting conflicts
+	// Get the content of the HostFile as a StringBuffer, in HTML format, with or
+	// without highlighting conflicts
 	public StringBuilder getHtmlContent(boolean showConflict) {
-		
-		StringBuilder res = new StringBuilder() ;
-		res.append(getHtmlBegin()) ;
-		res.append(getHtmlBody(showConflict)) ;
-		res.append(getHtmlEnd()) ;
-		return res ;
+
+		StringBuilder res = new StringBuilder();
+		res.append(getHtmlBegin());
+		res.append(getHtmlBody(showConflict));
+		res.append(getHtmlEnd());
+		return res;
 	}
 
 	public static StringBuilder getHtmlBegin() {
-		return new StringBuilder(htmlFileBegin) ;
+		return new StringBuilder(htmlFileBegin);
 	}
 	
 	// Get the content of the HostFile as a StringBuffer, in HTML format, with or without highlighting conflicts
 	// the HTML format is returned without the "html", "body" ... etc tags so that it can be inserted inside a HTML page
 	public StringBuilder getHtmlBody(boolean showConflict) {
-		
-		StringBuilder res = new StringBuilder() ;
+
+		StringBuilder res = new StringBuilder();
 		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
-			String spanTag = SPAN_NORMAL ;
-			HostFileStatement statement = fileStatement.hostFileStatement ;
+			String spanTag = SPAN_NORMAL;
+			HostFileStatement statement = fileStatement.hostFileStatement;
 			if (statement.isCommentLine()) {
-				spanTag = SPAN_COMMENT ;
+				spanTag = SPAN_COMMENT;
 			} else if (showConflict && (fileStatement.inConflict)) {
-				spanTag = SPAN_CONFLICT ;
+				spanTag = SPAN_CONFLICT;
 			} else if (statement.getReachable().equals(Reachable.FALSE)) {
-				spanTag = SPAN_UNREACHABLE ;
+				spanTag = SPAN_UNREACHABLE;
 			}
-			res.append(spanTag).append(statement.getLine()).append(ENDLINE_HTML) ;
+			res.append(spanTag).append(statement.getLine()).append(ENDLINE_HTML);
 		}
-		return res ;
+		return res;
 	}
 
 	public static StringBuilder getHtmlEnd() {
-		return new StringBuilder("</body></html>") ;
+		return new StringBuilder("</body></html>");
 	}
-	
+
 	// Set the css style part of HTML print
 	public static void setCssStyleDefinition(String cssStyleDefinitionFile) {
-		String cssStyleDefinition ;
+		String cssStyleDefinition;
 		try {
-			cssStyleDefinition =  new String(Files.readAllBytes(Paths.get(URI.create(cssStyleDefinitionFile)))) ;
+			cssStyleDefinition = new String(Files.readAllBytes(Paths.get(URI.create(cssStyleDefinitionFile))));
 		} catch (IOException e) {
 			log.log(Level.SEVERE, "IO Exception when reading css file " + cssStyleDefinitionFile, e);
-			cssStyleDefinition = "" ;
+			cssStyleDefinition = "";
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Exception when reading css file " + cssStyleDefinitionFile, e);
-			cssStyleDefinition = "" ;
-		}	
-		htmlFileBegin = "<html><head><style>" + cssStyleDefinition + "</style></head><body>" ;
+			cssStyleDefinition = "";
+		}
+		htmlFileBegin = "<html><head><style>" + cssStyleDefinition + "</style></head><body>";
 	}
-	
+
 	// Append a HostFile to this HostFile
 	public HostFile append(HostFile hf) {	
 //		addOneLineToHostFile("");
 		addHostFileStatements(hf.StatementsOfThisFile);
-		return this ;
+		return this;
 	}
-	
-	// Get the host file statements of hf host file which are not included in this host file
+
+	// Get the host file statements of hf host file which are not included in this
+	// host file
 	public List<HostFileStatement> getNotIncludedStatements(HostFile hf) {
-		
-		List<HostFileStatement> result = new ArrayList<HostFileStatement>() ;
-		
+
+		List<HostFileStatement> result = new ArrayList<HostFileStatement>();
+
 		for (StatementOfThisFile fileStatement : hf.StatementsOfThisFile) {
-			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
-			if ((m != null) && (! includes(m))) {
-				result.add(fileStatement.hostFileStatement) ;
+			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap();
+			if ((m != null) && (!includes(m))) {
+				result.add(fileStatement.hostFileStatement);
 			}
 		}
-		return result ;
+		return result;
 	}
-	
-	// Returns true if the IP address map is part of this host file 
+
+	// Returns true if the IP address map is part of this host file
 	private boolean includes(IpAddressMap ipam) {
-		
+
 		for (StatementOfThisFile fileStatement : StatementsOfThisFile) {
-			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
+			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap();
 			if ((m != null) && (m.isTheSameAs(ipam))) {
-				return true ;
+				return true;
 			}
 		}
-		return false ;
+		return false;
 	}
-	
-	// Returns true if all the IP address maps of the host file in parameter are part of this host file 
+
+	// Returns true if all the IP address maps of the host file in parameter are
+	// part of this host file
 	public boolean includes(HostFile hf) {
-		
-		boolean result = true ;
+
+		boolean result = true;
 		for (StatementOfThisFile fileStatement : hf.StatementsOfThisFile) {
-			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap() ;
-			if ((m != null) && (! includes(m))) {
-				result = false ;
+			IpAddressMap m = fileStatement.hostFileStatement.getIpAddressMap();
+			if ((m != null) && (!includes(m))) {
+				result = false;
 			}
 		}
-		return result ;
+		return result;
 	}
 	
 	// Return the list of host files (from the list of files in parameter) included in this host file 
 	public List<HostFile> getIncludedHostFiles(List<HostFile> hostFiles) {
-		return hostFiles.stream().filter(this::includes).collect(Collectors.toList()) ;
+		return hostFiles.stream().filter(this::includes).collect(Collectors.toList());
 	}
 
 	public void testReachableHosts() {

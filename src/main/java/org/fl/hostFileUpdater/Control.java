@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2024 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,6 @@ SOFTWARE.
 */
 
 package org.fl.hostFileUpdater;
-
-import java.util.logging.Logger;
-
 import org.fl.util.RunningContext;
 
 public class Control {
@@ -33,8 +30,6 @@ public class Control {
 	private static final String DEFAULT_PROP_FILE = "hostFileUpdater.properties";
 	
 	private static RunningContext runningContext;
-	
-	private static final Logger logger = Logger.getLogger(Control.class.getName());
 	
 	private static boolean initialized = false;
 	
@@ -53,12 +48,5 @@ public class Control {
 			init();
 		}
 		return runningContext;
-	}
-	
-	public static Logger getLogger() {
-		if (!initialized) {
-			init();
-		}
-		return logger;
 	}
 }
