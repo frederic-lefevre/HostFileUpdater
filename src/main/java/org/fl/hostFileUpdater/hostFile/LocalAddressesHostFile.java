@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -43,9 +43,8 @@ public class LocalAddressesHostFile extends HostFile {
 		List<String> localHostMappingsString = new ArrayList<String>();
 		localHostMappingsString.add("# Local addresses mappings");
 
-		NetworkUtils nu = new NetworkUtils(true);
-		List<String> hostCurrentIpAddresses = nu.getIPv4List();
-		String machineName = nu.getMachineName();
+		List<String> hostCurrentIpAddresses = NetworkUtils.getIPv4List();
+		String machineName = NetworkUtils.getMachineName();
 		String[] additionnalHostNames = applyPattern(machineName, otherLocalHostNames);
 		localHostMappingsString.add(LOCALIP + TABCHAR + LOCALHOST);
 		localHostMappingsString.add(LOCALIP + TABCHAR + machineName);
