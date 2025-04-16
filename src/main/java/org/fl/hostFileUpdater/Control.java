@@ -26,11 +26,10 @@ package org.fl.hostFileUpdater;
 
 import java.net.URI;
 
+import org.fl.hostFileUpdater.gui.HostFileUpdaterGui;
 import org.fl.util.RunningContext;
 
 public class Control {
-
-	private static final String DEFAULT_PROP_FILE = "hostFileUpdater.properties";
 	
 	private static RunningContext runningContext;
 	
@@ -39,16 +38,15 @@ public class Control {
 	private Control() {
 	}
 
-	public static void init() {
+	public static void init(String propertyFile) {
 		
-		runningContext = new RunningContext("org.fl.hostFileUpdater", URI.create(DEFAULT_PROP_FILE));
-		
+		runningContext = new RunningContext("org.fl.hostFileUpdater", URI.create(propertyFile));
 		initialized = true;
 	}
 	
 	public static RunningContext getRunningContext() {
 		if (!initialized) {
-			init();
+			init(HostFileUpdaterGui.getPropertyFile());
 		}
 		return runningContext;
 	}

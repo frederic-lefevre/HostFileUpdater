@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,11 +33,15 @@ import org.fl.hostFileUpdater.HostFileUpdater;
 import org.fl.util.RunningContext;
 import org.fl.util.swing.ApplicationTabbedPane;
 
-public class HostFileUpdaterGui   extends JFrame {
+public class HostFileUpdaterGui extends JFrame {
 	
 	private static final long serialVersionUID = 1384102217727660509L;
 
+	private static final String DEFAULT_PROP_FILE = "hostFileUpdater.properties";
+	
 	public static void main(String[] args) {
+		
+		Control.init(DEFAULT_PROP_FILE);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -50,9 +54,12 @@ public class HostFileUpdaterGui   extends JFrame {
 		});
 	}
 
-	public HostFileUpdaterGui() {
+	public static String getPropertyFile() {
+		return DEFAULT_PROP_FILE;
+	}
+	
+	private HostFileUpdaterGui() {
 
-		Control.init();
 		RunningContext context = Control.getRunningContext();
 
 		HostFileUpdater hfu = new HostFileUpdater(context.getProps());
