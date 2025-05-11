@@ -4,18 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.fl</groupId>
 	<artifactId>hostFileUpdater</artifactId>
-	<version>1.16.0</version>
+	<version>1.16.1</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.fl</groupId>
 			<artifactId>FlUtils</artifactId>
-			<version>8.0.0</version>
+			<version>8.7.0</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.12.1</version>
+			<version>5.12.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

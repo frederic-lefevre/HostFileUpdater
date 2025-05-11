@@ -25,6 +25,7 @@ SOFTWARE.
 package org.fl.hostFileUpdater ;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -37,6 +38,7 @@ import org.fl.hostFileUpdater.hostFile.HostFile;
 import org.fl.hostFileUpdater.hostFile.LocalAddressesHostFile;
 import org.fl.util.AdvancedProperties;
 import org.fl.util.FileSet;
+import org.fl.util.file.FilesUtils;
 
 public class HostFileUpdater {
 
@@ -73,23 +75,23 @@ public class HostFileUpdater {
 
 	private final HostFile localHostMappings;
 
-	public HostFileUpdater(AdvancedProperties props) {
+	public HostFileUpdater(AdvancedProperties props) throws URISyntaxException {
 
 		String hostFileStyle = props.getProperty("hostFileUpdate.cssFilePath");
 		HostFile.setCssStyleDefinition(hostFileStyle);
 
 		// Get the target host file and the host file base
-		Path pComment = props.getPathFromURI("hostFileUpdate.hostFileCommentHeader");
-		Path pBase = props.getPathFromURI("hostFileUpdate.hostFileBase");
-		Path pTarget = props.getPathFromURI("hostFileUpdate.hostFileTarget");
-		backupHostFile = props.getPathFromURI("hostFileUpdate.backupHosts");
+		Path pComment = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.hostFileCommentHeader"));
+		Path pBase = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.hostFileBase"));
+		Path pTarget = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.hostFileTarget"));
+		backupHostFile = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.backupHosts"));
 
 		hostFileCommentHeader = new HostFile(pComment);
 		baseHostFile = new HostFile(pBase);
 		targetHostFile = new HostFile(pTarget);
 
 		// Get the list of host file parts
-		Path hfPartsDir = props.getPathFromURI("hostFileUpdate.hostFileDir");
+		Path hfPartsDir = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.hostFileDir"));
 		FileSet hfPartsSet = new FileSet(hfPartsDir, log);
 		List<Path> hostFilePartsPaths = hfPartsSet.getFileList();
 		hostFileList = new ArrayList<HostFile>();
