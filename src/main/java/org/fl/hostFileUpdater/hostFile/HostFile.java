@@ -25,11 +25,9 @@ SOFTWARE.
 package org.fl.hostFileUpdater.hostFile;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,6 +37,7 @@ import java.util.stream.Collectors;
 import org.fl.hostFileUpdater.HostFileStatement;
 import org.fl.hostFileUpdater.IpAddressMap;
 import org.fl.hostFileUpdater.IpAddressMap.Reachable;
+import org.fl.util.file.FilesUtils;
 
 public class HostFile {
 
@@ -205,7 +204,7 @@ public class HostFile {
 	public static void setCssStyleDefinition(String cssStyleDefinitionFile) {
 		String cssStyleDefinition;
 		try {
-			cssStyleDefinition = new String(Files.readAllBytes(Paths.get(URI.create(cssStyleDefinitionFile))));
+			cssStyleDefinition = new String(Files.readAllBytes(FilesUtils.uriStringToAbsolutePath(cssStyleDefinitionFile)));
 		} catch (IOException e) {
 			log.log(Level.SEVERE, "IO Exception when reading css file " + cssStyleDefinitionFile, e);
 			cssStyleDefinition = "";
