@@ -25,6 +25,7 @@ SOFTWARE.
 package org.fl.hostFileUpdater.gui;
 
 import java.awt.EventQueue;
+import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 
@@ -58,7 +59,7 @@ public class HostFileUpdaterGui extends JFrame {
 		return DEFAULT_PROP_FILE;
 	}
 	
-	private HostFileUpdaterGui() {
+	private HostFileUpdaterGui() throws URISyntaxException {
 
 		RunningContext context = Control.getRunningContext();
 
