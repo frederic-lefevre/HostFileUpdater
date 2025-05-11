@@ -26,6 +26,8 @@ package org.fl.hostFileUpdater.gui;
 
 import java.awt.EventQueue;
 import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -38,6 +40,8 @@ public class HostFileUpdaterGui extends JFrame {
 	
 	private static final long serialVersionUID = 1384102217727660509L;
 
+	private static final Logger logger = Logger.getLogger(HostFileUpdaterGui.class.getName());
+	
 	private static final String DEFAULT_PROP_FILE = "hostFileUpdater.properties";
 	
 	public static void main(String[] args) {
@@ -49,7 +53,7 @@ public class HostFileUpdaterGui extends JFrame {
 					HostFileUpdaterGui window = new HostFileUpdaterGui();
 					window.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.log(Level.SEVERE, "Exception in main", e);
 				}
 			}
 		});
