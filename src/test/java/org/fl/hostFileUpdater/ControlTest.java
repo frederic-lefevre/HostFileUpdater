@@ -24,7 +24,7 @@ SOFTWARE.
 
 package org.fl.hostFileUpdater;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import org.fl.util.RunningContext;
 import org.junit.jupiter.api.Test;
