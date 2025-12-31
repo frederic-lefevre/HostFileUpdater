@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.fl</groupId>
 	<artifactId>hostFileUpdater</artifactId>
-	<version>1.16.6</version>
+	<version>1.17.0</version>
 
 	<dependencyManagement>
 		<dependencies>
@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>org.fl</groupId>
 			<artifactId>FlUtils</artifactId>
-			<version>9.0.1</version>
+			<version>10.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
