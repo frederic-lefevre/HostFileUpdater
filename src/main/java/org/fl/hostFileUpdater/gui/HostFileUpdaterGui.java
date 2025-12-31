@@ -67,8 +67,6 @@ public class HostFileUpdaterGui extends JFrame {
 
 		RunningContext context = Control.getRunningContext();
 
-		HostFileUpdater hfu = new HostFileUpdater(context.getProps());
-
 		// init main window
 		setBounds(50, 50, 1500, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,14 +74,19 @@ public class HostFileUpdaterGui extends JFrame {
 
 		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(context);
 
-		ParseHostFilePane parsePanel = new ParseHostFilePane(hfu);
-		ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu);
+		try {
+			HostFileUpdater hfu = new HostFileUpdater(context.getProps());
+			ParseHostFilePane parsePanel = new ParseHostFilePane(hfu);
+			ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu);
 
-		hfTabs.add(parsePanel, "Analyse host file", 0);
-		hfTabs.add(composePanel, "Compose host file", 1);
+			hfTabs.add(parsePanel, "Analyse host file", 0);
+			hfTabs.add(composePanel, "Compose host file", 1);
 
-		hfTabs.setSelectedIndex(0);
+			hfTabs.setSelectedIndex(0);
 
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Exception during application startup", e);
+		}
 		getContentPane().add(hfTabs);
 	}
 }
