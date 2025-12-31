@@ -24,8 +24,6 @@ SOFTWARE.
 
 package org.fl.hostFileUpdater;
 
-import java.net.URI;
-
 import org.fl.hostFileUpdater.gui.HostFileUpdaterGui;
 import org.fl.util.RunningContext;
 
@@ -40,7 +38,7 @@ public class Control {
 
 	public static void init(String propertyFile) {
 		
-		runningContext = new RunningContext("org.fl.hostFileUpdater", URI.create(propertyFile));
+		runningContext = new RunningContext("org.fl.hostFileUpdater", propertyFile);
 		initialized = true;
 	}
 	
