@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2025 Frederic Lefevre
+Copyright (c) 2017, 2026 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,23 +29,9 @@ import org.fl.util.RunningContext;
 
 public class Control {
 	
-	private static RunningContext runningContext;
-	
-	private static boolean initialized = false;
-	
 	private Control() {
 	}
 
-	public static void init(String propertyFile) {
-		
-		runningContext = new RunningContext("org.fl.hostFileUpdater", propertyFile);
-		initialized = true;
-	}
 	
-	public static RunningContext getRunningContext() {
-		if (!initialized) {
-			init(HostFileUpdaterGui.getPropertyFile());
-		}
-		return runningContext;
-	}
+
 }

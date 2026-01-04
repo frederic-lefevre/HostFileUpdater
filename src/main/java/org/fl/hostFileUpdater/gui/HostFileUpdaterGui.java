@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2025 Frederic Lefevre
+Copyright (c) 2017, 2026 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,6 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
-import org.fl.hostFileUpdater.Control;
 import org.fl.hostFileUpdater.HostFileUpdater;
 import org.fl.util.RunningContext;
 import org.fl.util.swing.ApplicationTabbedPane;
@@ -44,9 +43,12 @@ public class HostFileUpdaterGui extends JFrame {
 	
 	private static final String DEFAULT_PROP_FILE = "hostFileUpdater.properties";
 	
+	private static RunningContext runningContext;
+	
 	public static void main(String[] args) {
 		
-		Control.init(DEFAULT_PROP_FILE);
+		getRunningContext();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -59,23 +61,25 @@ public class HostFileUpdaterGui extends JFrame {
 		});
 	}
 
-	public static String getPropertyFile() {
-		return DEFAULT_PROP_FILE;
+	public static RunningContext getRunningContext() {
+		if (runningContext == null) {
+			runningContext = new RunningContext("org.fl.hostFileUpdater", DEFAULT_PROP_FILE);
+		}
+		return runningContext;
 	}
 	
 	private HostFileUpdaterGui() throws URISyntaxException {
 
-		RunningContext context = Control.getRunningContext();
 
 		// init main window
 		setBounds(50, 50, 1500, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Host File Updater");
 
-		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(context);
+		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(runningContext);
 
 		try {
-			HostFileUpdater hfu = new HostFileUpdater(context.getProps());
+			HostFileUpdater hfu = new HostFileUpdater(runningContext.getProps());
 			ParseHostFilePane parsePanel = new ParseHostFilePane(hfu);
 			ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu);
 
