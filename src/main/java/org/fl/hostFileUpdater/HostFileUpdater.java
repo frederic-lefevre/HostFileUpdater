@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2025 Frederic Lefevre
+Copyright (c) 2017, 2026 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@ SOFTWARE.
 package org.fl.hostFileUpdater ;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -36,9 +35,7 @@ import java.util.logging.Logger;
 
 import org.fl.hostFileUpdater.hostFile.HostFile;
 import org.fl.hostFileUpdater.hostFile.LocalAddressesHostFile;
-import org.fl.util.AdvancedProperties;
 import org.fl.util.FileSet;
-import org.fl.util.file.FilesUtils;
 
 public class HostFileUpdater {
 
@@ -75,35 +72,27 @@ public class HostFileUpdater {
 
 	private final HostFile localHostMappings;
 
-	public HostFileUpdater(AdvancedProperties props) throws URISyntaxException {
-
-		String hostFileStyle = props.getProperty("hostFileUpdate.cssFilePath");
-		HostFile.setCssStyleDefinition(hostFileStyle);
+	public HostFileUpdater() {
 
 		// Get the target host file and the host file base
-		Path pComment = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.hostFileCommentHeader"));
-		Path pBase = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.hostFileBase"));
-		Path pTarget = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.hostFileTarget"));
-		backupHostFile = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.backupHosts"));
+		backupHostFile = Control.getBackupHostFile();
 
-		hostFileCommentHeader = new HostFile(pComment);
-		baseHostFile = new HostFile(pBase);
-		targetHostFile = new HostFile(pTarget);
+		hostFileCommentHeader = new HostFile(Control.getPComment());
+		baseHostFile = new HostFile(Control.getPBase());
+		targetHostFile = new HostFile(Control.getPTarget());
 
 		// Get the list of host file parts
-		Path hfPartsDir = FilesUtils.uriStringToAbsolutePath(props.getProperty("hostFileUpdate.hostFileDir"));
-		FileSet hfPartsSet = new FileSet(hfPartsDir, log);
+		FileSet hfPartsSet = new FileSet(Control.getHfPartsDir(), log);
 		List<Path> hostFilePartsPaths = hfPartsSet.getFileList();
 		hostFileList = new ArrayList<HostFile>();
 		chosenHostFileList = new ArrayList<HostFile>();
 
 		// Build the local host mappings
-		String[] additionnalHostNames = props.getArrayOfString("hostFileUpdate.localHostNames", ";");
-		localHostMappings = new LocalAddressesHostFile(additionnalHostNames);
+		localHostMappings = new LocalAddressesHostFile(Control.getAdditionnalHostNames());
 
 		// Build the totalHostFile to find the statements that will be lost if the host
 		// file is saved
-		HostFile totalHostFile = new HostFile(pBase);
+		HostFile totalHostFile = new HostFile(Control.getPBase());
 		totalHostFile.append(localHostMappings);
 		for (Path hPartPath : hostFilePartsPaths) {
 			HostFile hf = new HostFile(hPartPath);

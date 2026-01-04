@@ -79,7 +79,7 @@ public class HostFileUpdaterGui extends JFrame {
 		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(runningContext);
 
 		try {
-			HostFileUpdater hfu = new HostFileUpdater(runningContext.getProps());
+			HostFileUpdater hfu = new HostFileUpdater();
 			ParseHostFilePane parsePanel = new ParseHostFilePane(hfu);
 			ComposeHostFilePane composePanel = new ComposeHostFilePane(hfu);
 
