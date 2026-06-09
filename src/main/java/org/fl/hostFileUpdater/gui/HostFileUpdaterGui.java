@@ -74,7 +74,7 @@ public class HostFileUpdaterGui extends JFrame {
 		// init main window
 		setBounds(50, 50, 1500, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Host File Updater");
+		setTitle("Host File Updater [" + getRunningContext().getVersion() + "]");
 
 		ApplicationTabbedPane hfTabs = new ApplicationTabbedPane(runningContext);
 
